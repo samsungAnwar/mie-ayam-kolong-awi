@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mie Ayam Kolong Awi - Jagabita</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        #heroSection {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            transition: background 0.5s ease-in-out;
+        }
+        .smooth-scroll { scroll-behavior: smooth; }
+        .floating-share {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 40;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+        
+        /* Spinner for loading */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .text-shadow-lg { text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 smooth-scroll">
+
+    <div id="globalLoader" class="loading-overlay">
+        <div class="flex flex-col items-center">
+            <div class="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="font-bold text-amber-600">Sedang Memproses...</p>
+        </div>
+    </div>
+
+    <!-- Tombol Bagikan Melayang -->
+    <div class="floating-share flex flex-col gap-3">
+        <button onclick="shareToWhatsApp()" class="bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition transform hover:scale-110 flex items-center justify-center" title="Bagikan ke WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.626 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Navigasi -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-xl md:text-2xl font-bold text-amber-600 tracking-tighter uppercase">
+                MIE AYAM <span class="text-stone-800 underline decoration-green-500">KOLONG AWI</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium items-center">
+                <a href="#home" class="hover:text-amber-600 transition">Beranda</a>
+                <a href="#menu" class="hover:text-amber-600 transition">Menu</a>
+                <button onclick="toggleAdminMode()" id="adminBtn" class="text-xs px-4 py-2 bg-stone-100 border border-stone-300 rounded-full hover:bg-stone-200 transition font-bold uppercase tracking-widest">Mode Pemilik</button>
+                <a href="#contact" class="px-4 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition">Pesan Sekarang</a>
+            </div>
+            <button onclick="toggleAdminMode()" class="md:hidden text-stone-400 text-xs">Admin</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="h-0"></section>
+    <section id="heroSection" class="h-[80vh] flex items-center justify-center text-center text-white px-4 relative">
+        <div id="heroEditBtn" class="absolute top-24 right-4 md:right-8 hidden z-20">
+            <label class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-full cursor-pointer shadow-xl flex items-center gap-2 transition transform hover:scale-105 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                </svg>
+                Ganti Banner
+                <input type="file" id="heroFileInput" accept="image/*" class="hidden">
+            </label>
+        </div>
+
+        <div class="max-w-3xl">
+            <h1 class="text-5xl md:text-7xl mb-6 uppercase tracking-tighter font-bold text-shadow-lg">mie ayam kolong awi</h1>
+            <p class="text-lg md:text-xl mb-10 font-light text-stone-200">Kelezatan mie ayam buatan tangan di bawah rimbun pohon bambu Jagabita.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#menu" class="px-8 py-3 bg-amber-600 text-white rounded-full font-bold shadow-lg hover:bg-amber-700 transition">Lihat Menu</a>
+                <button onclick="copyToClipboard()" class="px-8 py-3 bg-white text-stone-800 rounded-full font-bold shadow-lg hover:bg-stone-100 transition flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                    </svg>
+                    Salin Link Web
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-stone-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 uppercase tracking-wide text-stone-800">Menu Andalan</h2>
+                <div class="w-24 h-1.5 bg-amber-600 mx-auto rounded-full"></div>
+                
+                <div id="adminControls" class="mt-8 hidden flex flex-col items-center gap-4 bg-white p-6 rounded-3xl shadow-sm border border-stone-200 max-w-lg mx-auto">
+                    <p class="text-amber-600 font-bold uppercase tracking-widest text-[10px]">● Panel Kontrol Pemilik</p>
+                    
+                    <div class="w-full text-left space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-bold text-stone-400 uppercase mb-1 italic">Link Publik Website (Penting untuk Barkot)</label>
+                            <input type="text" id="webUrlInput" placeholder="https://mieayam-awi.github.io" class="w-full p-2 text-sm border rounded-lg outline-none focus:ring-1 focus:ring-amber-500" oninput="updateQRCode()">
+                        </div>
+
+                        <!-- Area Barkot (QR Code) -->
+                        <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100 flex flex-col items-center">
+                            <p class="text-[10px] font-bold text-stone-500 mb-2 uppercase">Barkot Menu Digital Anda</p>
+                            <div id="qrcode-container" class="bg-white p-2 rounded-xl shadow-inner border border-stone-200">
+                                <img id="qrcode-img" src="" alt="Scan QR Code" class="w-32 h-32 opacity-30">
+                            </div>
+                            <p class="text-[9px] text-stone-400 mt-2 text-center">Tunjukkan kode ini agar pelanggan bisa scan menu di HP mereka.</p>
+                        </div>
+                    </div>
+
+                    <button onclick="openAddNew()" class="w-full bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg flex items-center justify-center gap-2 mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Tambah Menu Baru
+                    </button>
+                </div>
+            </div>
+
+            <div id="menuContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Menu items injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Edit -->
+    <div id="editModal" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center bg-stone-50">
+                <h3 id="modalTitle" class="text-xl font-bold italic">Edit Menu</h3>
+                <button onclick="closeModal()" class="text-stone-400 hover:text-stone-800 text-2xl transition hover:rotate-90">&times;</button>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="order-2 md:order-1">
+                        <label class="block text-xs font-bold text-stone-400 uppercase mb-1">Nama Menu</label>
+                        <input type="text" id="editName" class="w-full p-3 border rounded-xl mb-4 focus:ring-2 focus:ring-amber-500 outline-none transition">
+                        
+                        <label class="block text-xs font-bold text-stone-400 uppercase mb-1">Harga (Angka saja)</label>
+                        <input type="text" id="editPrice" class="w-full p-3 border rounded-xl mb-4 focus:ring-2 focus:ring-amber-500 outline-none transition">
+
+                        <label class="block text-xs font-bold text-stone-400 uppercase mb-1">Deskripsi Singkat</label>
+                        <textarea id="editDesc" class="w-full p-3 border rounded-xl mb-4 h-24 focus:ring-2 focus:ring-amber-500 outline-none transition resize-none"></textarea>
+                    </div>
+                    <div class="flex flex-col items-center justify-center order-1 md:order-2">
+                        <label class="block text-xs font-bold text-stone-400 uppercase mb-2 text-center">Foto Menu</label>
+                        <div class="relative group h-64 w-full bg-stone-100 rounded-2xl overflow-hidden border-2 border-dashed border-stone-300 mb-4 shadow-inner">
+                            <img id="editPreview" src="" class="w-full h-full object-cover">
+                            <label class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center cursor-pointer text-white font-bold text-sm text-center px-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Ketuk untuk Ganti
+                                <input type="file" id="fileInput" accept="image/*" class="hidden">
+                            </label>
+                        </div>
+                        <button onclick="document.getElementById('fileInput').click()" class="md:hidden w-full py-2 bg-stone-200 text-stone-700 rounded-lg text-xs font-bold hover:bg-stone-300 transition mb-2">Pilih Foto Baru</button>
+                        <p class="text-[10px] text-stone-400 italic text-center">Foto otomatis dikompres untuk menghemat memori.</p>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t">
+                    <button onclick="saveChanges()" class="flex-1 py-3.5 bg-amber-600 text-white rounded-xl font-bold hover:bg-amber-700 shadow-lg transition transform active:scale-95">Simpan Perubahan</button>
+                    <button id="deleteBtn" onclick="deleteMenu()" class="px-6 py-3.5 bg-red-50 text-red-600 rounded-xl font-bold hover:bg-red-100 transition text-sm">Hapus</button>
+                    <button onclick="closeModal()" class="px-6 py-3.5 border border-stone-300 rounded-xl hover:bg-stone-50 font-medium transition text-sm">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-8 italic">Mampir Yuk!</h2>
+            <div class="bg-stone-50 p-8 md:p-12 rounded-[2.5rem] border border-stone-100 shadow-sm transition hover:shadow-md">
+                <p class="text-stone-600 mb-2 font-bold uppercase tracking-widest text-[10px]">Lokasi Kami di Jagabita</p>
+                <p class="text-stone-800 mb-2 text-lg">Jl. Raya Jagabita, Kec. Parung Panjang, Kab. Bogor</p>
+                <p class="text-amber-600 mb-10 font-bold text-3xl md:text-4xl tracking-tighter">WA: 0857-1065-0502</p>
+                
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <a href="https://wa.me/6285710650502" target="_blank" class="px-10 py-4 bg-green-500 text-white rounded-2xl font-bold shadow-xl hover:bg-green-600 transition flex items-center justify-center gap-2">
+                        Pesan Sekarang (WA)
+                    </a>
+                    <button onclick="shareToWhatsApp()" class="px-10 py-4 bg-blue-500 text-white rounded-2xl font-bold shadow-xl hover:bg-blue-600 transition flex items-center justify-center gap-2">
+                        Bagikan ke Status WA
+                    </button>
+                </div>
+
+                <!-- Barkot di bagian kontak -->
+                <div id="qr-display-contact" class="mt-12 pt-8 border-t border-stone-200 hidden">
+                    <p class="text-xs font-bold text-stone-400 mb-4 uppercase text-center">Scan Barkot Untuk Menu Digital</p>
+                    <img id="qrcode-img-contact" src="" alt="Barkot Menu" class="mx-auto w-40 h-40 border-4 border-white shadow-lg rounded-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-500 py-12 text-center">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-white font-bold text-xl uppercase tracking-tighter mb-4 italic">MIE AYAM KOLONG AWI</p>
+            <p class="text-xs max-w-xs mx-auto mb-8 leading-relaxed">Rasa bintang lima, harga kaki lima. Kami mengutamakan kualitas bahan dan kebersihan untuk setiap porsinya.</p>
+            <p class="text-[10px] opacity-50">&copy; 2025 Mie Ayam Kolong Awi. Jagabita Pride.</p>
+        </div>
+    </footer>
+
+    <script>
+        // State Management
+        let isAdmin = false;
+        let currentEditId = null;
+        let isAddingNew = false;
+
+        // Inisialisasi data default
+        const initialData = [
+            { id: 1, name: "Mie Ayam Biasa", price: "12.000", desc: "Mie kenyal dengan topping ayam kecap spesial dan sawi segar.", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=800" },
+            { id: 2, name: "Mie Ayam Pangsit", price: "12.000", desc: "Lengkap dengan pangsit goreng renyah yang bikin nagih.", img: "https://images.unsplash.com/photo-1512058560366-cd2429597954?w=800" },
+            { id: 3, name: "Mie Ayam Spesial", price: "15.000", desc: "Kombinasi komplit bakso sapi urat dan pangsit goreng.", img: "https://images.unsplash.com/photo-1593001410780-c02052219445?w=800" },
+            { id: 4, name: "Menu Favorit Kolong awi", price: "12.000", desc: "Resep rahasia hanya ada di Jagabita.", img: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800" }
+        ];
+
+        let menuItems = JSON.parse(localStorage.getItem('kolong_awi_menu')) || initialData;
+
+        // --- IMAGE COMPRESSION UTILITY ---
+        function compressImage(base64Str, maxWidth = 800, maxHeight = 600, quality = 0.7) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = base64Str;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > maxWidth) { height *= maxWidth / width; width = maxWidth; }
+                    } else {
+                        if (height > maxHeight) { width *= maxHeight / height; height = maxHeight; }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+            });
+        }
+
+        // --- QR CODE LOGIC ---
+        function updateQRCode() {
+            const webUrl = document.getElementById('webUrlInput').value || window.location.href;
+            localStorage.setItem('kolong_awi_url', webUrl);
+            
+            const qrSize = "300x300";
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}&data=${encodeURIComponent(webUrl)}&bgcolor=FFFFFF&color=d97706`;
+            
+            const qrImg = document.getElementById('qrcode-img');
+            const qrImgContact = document.getElementById('qrcode-img-contact');
+            const qrDisplayContact = document.getElementById('qr-display-contact');
+            
+            qrImg.src = qrUrl;
+            qrImg.style.opacity = "1";
+            qrImgContact.src = qrUrl;
+            
+            if(localStorage.getItem('kolong_awi_url')) {
+                qrDisplayContact.classList.remove('hidden');
+            }
+        }
+
+        // Render UI
+        function renderMenu() {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = menuItems.map(item => `
+                <div class="bg-white rounded-[2rem] overflow-hidden shadow-lg group relative transition-all duration-500 hover:-translate-y-2 border border-stone-100 flex flex-col h-full">
+                    ${isAdmin ? `
+                        <button onclick="openEdit(${item.id})" class="absolute top-4 right-4 z-10 bg-amber-600 text-white p-2.5 rounded-full shadow-lg hover:bg-amber-700 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                        </button>
+                    ` : ''}
+                    <div class="h-56 overflow-hidden relative">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" onerror="this.src='https://via.placeholder.com/400x300?text=Foto+Mie+Ayam'">
+                        ${isAdmin ? `
+                            <div onclick="openEdit(${item.id})" class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                <span class="bg-white/90 text-stone-800 px-4 py-2 rounded-full text-xs font-bold shadow-lg">Ganti Foto & Harga</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="p-8 text-center md:text-left flex flex-col flex-grow">
+                        <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-3">
+                            <h3 class="text-xl font-bold italic tracking-tight">${item.name}</h3>
+                            <span class="text-amber-600 font-bold bg-amber-50 px-3 py-1 rounded-full text-sm mt-2 md:mt-0">Rp ${item.price}</span>
+                        </div>
+                        <p class="text-stone-500 text-xs mb-8 leading-relaxed flex-grow">${item.desc}</p>
+                        <button onclick="shareItem('${item.name}', '${item.price}')" class="w-full py-3.5 bg-stone-50 border border-stone-200 text-stone-700 font-bold rounded-2xl hover:bg-amber-600 hover:text-white hover:border-amber-600 transition flex items-center justify-center gap-2 text-sm shadow-sm active:bg-amber-700">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                            </svg>
+                            Bagikan Menu
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Fitur Berbagi
+        function getShareUrl() {
+            return localStorage.getItem('kolong_awi_url') || window.location.href;
+        }
+
+        function shareToWhatsApp() {
+            const url = getShareUrl();
+            const text = "Mie Ayam Kolong Awi - Jagabita 🍜\nLagi pengen mie ayam enak? Cek menu dan lokasinya di sini yuk:\n" + url;
+            window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+        }
+
+        function shareItem(name, price) {
+            const url = getShareUrl();
+            const text = `Mau nitip? Di Mie Ayam Kolong Awi ada menu ${name} cuma Rp ${price} lho! \n\nCek fotonya di sini: ${url}`;
+            window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+        }
+
+        function copyToClipboard() {
+            const url = getShareUrl();
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = url;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            showNotification("Link Web berhasil disalin ke HP!");
+        }
+
+        // Admin Logic
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            document.getElementById('adminBtn').innerText = isAdmin ? 'Keluar Mode Pemilik' : 'Mode Pemilik';
+            document.getElementById('adminControls').classList.toggle('hidden', !isAdmin);
+            document.getElementById('heroEditBtn').classList.toggle('hidden', !isAdmin);
+            document.getElementById('webUrlInput').value = localStorage.getItem('kolong_awi_url') || "";
+            if (isAdmin) updateQRCode();
+            renderMenu();
+        }
+
+        function openAddNew() {
+            isAddingNew = true;
+            currentEditId = null;
+            document.getElementById('modalTitle').innerText = "Tambah Menu Baru";
+            document.getElementById('editName').value = "";
+            document.getElementById('editPrice').value = "";
+            document.getElementById('editDesc').value = "";
+            document.getElementById('editPreview').src = "https://via.placeholder.com/400x300?text=Upload+Foto+Mie";
+            document.getElementById('deleteBtn').classList.add('hidden');
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function openEdit(id) {
+            isAddingNew = false;
+            currentEditId = id;
+            const item = menuItems.find(m => m.id === id);
+            document.getElementById('modalTitle').innerText = "Edit Menu";
+            document.getElementById('editName').value = item.name;
+            document.getElementById('editPrice').value = item.price;
+            document.getElementById('editDesc').value = item.desc;
+            document.getElementById('editPreview').src = item.img;
+            document.getElementById('deleteBtn').classList.remove('hidden');
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('editModal').classList.add('hidden'); }
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => document.getElementById('editPreview').src = event.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('heroFileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('globalLoader').style.display = 'flex';
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    try {
+                        const compressed = await compressImage(event.target.result, 1200, 800, 0.7);
+                        document.getElementById('heroSection').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${compressed}')`;
+                        localStorage.setItem('kolong_awi_hero', compressed);
+                        showNotification("Banner utama diganti!");
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } finally { document.getElementById('globalLoader').style.display = 'none'; }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function saveChanges() {
+            const name = document.getElementById('editName').value;
+            const price = document.getElementById('editPrice').value;
+            const desc = document.getElementById('editDesc').value;
+            let img = document.getElementById('editPreview').src;
+
+            if (!name || !price) return alert("Nama dan Harga harus diisi!");
+            document.getElementById('globalLoader').style.display = 'flex';
+            try {
+                if (img.startsWith('data:image')) img = await compressImage(img);
+                if (isAddingNew) {
+                    const newId = menuItems.length > 0 ? Math.max(...menuItems.map(m => m.id)) + 1 : 1;
+                    menuItems.push({ id: newId, name, price, desc, img });
+                } else {
+                    const idx = menuItems.findIndex(m => m.id === currentEditId);
+                    menuItems[idx] = { ...menuItems[idx], name, price, desc, img };
+                }
+                localStorage.setItem('kolong_awi_menu', JSON.stringify(menuItems));
+                renderMenu(); closeModal();
+                showNotification("Menu disimpan!");
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 500);
+            } finally { document.getElementById('globalLoader').style.display = 'none'; }
+        }
+
+        function deleteMenu() {
+            if (confirm("Hapus menu ini?")) {
+                menuItems = menuItems.filter(m => m.id !== currentEditId);
+                localStorage.setItem('kolong_awi_menu', JSON.stringify(menuItems));
+                renderMenu(); closeModal(); showNotification("Menu dihapus");
+            }
+        }
+
+        function showNotification(text) {
+            const notif = document.createElement('div');
+            notif.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-stone-800 text-white px-8 py-3 rounded-full shadow-2xl z-[200] font-bold text-xs text-center min-w-[280px]';
+            notif.innerText = text; document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 4000);
+        }
+
+        window.onload = () => {
+            const savedHero = localStorage.getItem('kolong_awi_hero');
+            if (savedHero) document.getElementById('heroSection').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${savedHero}')`;
+            if (localStorage.getItem('kolong_awi_url')) updateQRCode();
+            renderMenu();
+        };
+    </script>
+</body>
+</html>
