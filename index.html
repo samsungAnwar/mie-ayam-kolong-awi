@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
+<head><script>
+function masukAdmin() {
+    var password = prompt("Masukkan Password Admin Mie Ayam Kolong Awi:");
+    if (password === "kolongawi123") {
+        alert("Sandi Benar! Selamat datang Pak Anwar.");
+        document.getElementById("menu-admin").classList.remove("hidden");
+    } else {
+        alert("Sandi Salah! Anda tidak memiliki akses.");
+    }
+}
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mie Ayam Kolong Awi - Jagabita</title>
