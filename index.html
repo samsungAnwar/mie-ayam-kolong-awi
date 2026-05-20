@@ -1,84 +1,1797 @@
+
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mie Ayam Kolong Awi - Jagabita</title>
+    <title>Mie Ayam Kolong Awi - Rasa Elit Harga Irit</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=600;700&family=Poppins:wght=400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        h1, h2 { font-family: 'Playfair Display', serif; }
-        .hidden { display: none; }
-    </style>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&family=Playfair+Display:ital,wght=0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
-    function masukAdmin() {
-        var password = prompt("Masukkan Password Admin Mie Ayam Kolong Awi:");
-        if (password === "kolongawi123") {
-            alert("Sandi Benar! Selamat datang Pak Anwar.");
-            document.getElementById("menu-admin").classList.remove("hidden");
-        } else {
-            alert("Sandi Salah! Anda tidak memiliki akses.");
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                            dark: '#1e293b'
+                        },
+                        accent: {
+                            50: '#fefbeb',
+                            100: '#fef3c7',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
         }
-    }
     </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
 
-    <div class="relative bg-orange-600 text-white py-12 px-4 text-center shadow-lg">
-        <div class="max-w-2xl mx-auto">
-            <logo jpg.jpeg src="https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Mie Ayam Kolong Awi" class="w-40 h-40 object-cover mx-auto rounded-full border-4 border-white shadow-md mb-4">
-            <h1 class="text-3xl font-bold tracking-wide">Mie Ayam Kolong Awi</h1>
-            <p class="text-orange-100 text-sm mt-1">Rasakan Kelezatan Mi Istimewa di Jalan Raya Jagabita</p>
+    <!-- Top Info Bar (Real-time Shop Status) -->
+    <div class="bg-brand-800 text-white py-2 px-4 text-xs md:text-sm font-semibold shadow-inner">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center bg-brand-600 rounded-full px-2.5 py-0.5 text-xs">HOT PROMO</span>
+                <span>🔥 Dapatkan Topping Gratis lewat Roda Keberuntungan di bawah!</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5">
+                    <i class="fa-regular fa-clock"></i> 10:00 - 21:00 WIB
+                </span>
+                <span id="shop-status-badge" class="flex items-center gap-1">
+                    <span class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                    <span id="shop-status-text">Memeriksa Jam Buka...</span>
+                </span>
+            </div>
         </div>
-        <button onclick="masukAdmin()" class="absolute top-4 right-4 bg-orange-700 bg-opacity-50 text-xs px-3 py-1 rounded hover:bg-opacity-70 transition">Admin</button>
     </div>
 
-    <div class="max-w-md mx-auto px-4 py-8 space-y-6">
-        
-        <div id="menu-admin" class="hidden bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 shadow-sm">
-            <h3 class="text-sm font-semibold text-yellow-800 mb-2">Panel Admin Pak Anwar</h3>
-            <p class="text-xs text-yellow-700">Gunakan akun GitHub Anda untuk mengubah harga atau menu secara permanen agar aman 100%.</p>
-        </div>
+    <!-- Header / Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="bg-brand-600 text-white p-2.5 rounded-2xl shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-bowl-food text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-xl md:text-2xl font-black text-stone-900 tracking-tight block">KOLONG AWI</span>
+                        <span class="text-xs font-semibold text-brand-600 uppercase tracking-widest block -mt-1">Mie Ayam Istimewa</span>
+                    </div>
+                </a>
 
-        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h2 class="text-xl font-bold text-gray-900 border-b pb-3 mb-4 text-center text-orange-600">Menu Andalan Kami</h2>
-            <div class="space-y-4">
-                <div class="flex justify-between items-center border-b border-dashed pb-2">
-                    <div>
-                        <h3 class="font-medium text-gray-800">Mie Ayam Biasa</h3>
-                        <p class="text-xs text-gray-500">Mi kenyal dengan taburan ayam bumbu legendaris</p>
-                    </div>
-                    <span class="font-semibold text-orange-600 text-sm">Rp 12.000</span>
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 font-medium text-stone-600">
+                    <a href="#tentang" class="hover:text-brand-600 transition-colors">Tentang Kami</a>
+                    <a href="#menu" class="hover:text-brand-600 transition-colors">Menu Utama</a>
+                    <a href="#roda-keberuntungan" class="hover:text-brand-600 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-clover text-amber-500"></i> Spin & Win
+                    </a>
+                    <a href="#ulasan" class="hover:text-brand-600 transition-colors">Testimoni</a>
+                    <a href="#lokasi" class="hover:text-brand-600 transition-colors">Lokasi</a>
                 </div>
-                <div class="flex justify-between items-center border-b border-dashed pb-2">
-                    <div>
-                        <h3 class="font-medium text-gray-800">Mie Ayam Bakso</h3>
-                        <p class="text-xs text-gray-500">Mie ayam lengkap dengan 3 bakso sapi urat segar</p>
-                    </div>
-                    <span class="font-semibold text-orange-600 text-sm">Rp 15.000</span>
-                </div>
-                <div class="flex justify-between items-center pb-2">
-                    <div>
-                        <h3 class="font-medium text-gray-800">Mie Ayam Pangsit</h3>
-                        <p class="text-xs text-gray-500">Mie ayam dengan tambahan pangsit basah lembut</p>
-                    </div>
-                    <span class="font-semibold text-orange-600 text-sm">Rp 15.000</span>
+
+                <!-- Right Utility Icons (Cart & Admin Image Uploader) -->
+                <div class="flex items-center gap-3">
+                    <!-- Admin Image Settings Button -->
+                    <button onclick="openAdminModal()" class="hidden sm:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold transition-all">
+                        <i class="fa-solid fa-lock text-sm"></i> Atur Gambar
+                    </button>
+
+                    <button onclick="toggleCart()" class="relative bg-stone-100 hover:bg-brand-50 hover:text-brand-600 text-stone-700 p-3 rounded-xl transition-all duration-200">
+                        <i class="fa-solid fa-basket-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-1.5 -right-1.5 bg-brand-600 text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center border-2 border-white scale-0 transition-transform">0</span>
+                    </button>
+                    <!-- Mobile Hamburger Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-stone-700 hover:text-brand-600 transition-colors">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200 px-4 pt-2 pb-4 space-y-2 shadow-lg">
+            <!-- Mobile Admin Image Button -->
+            <button onclick="openAdminModal(); toggleMobileMenu();" class="w-full text-left py-2.5 px-3 rounded-lg bg-amber-50 text-amber-800 font-bold transition-all flex items-center gap-2">
+                <i class="fa-solid fa-lock"></i> Pengaturan Gambar
+            </button>
+            <a href="#tentang" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Tentang Kami</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Menu Utama</a>
+            <a href="#roda-keberuntungan" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Spin & Win</a>
+            <a href="#ulasan" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Testimoni</a>
+            <a href="#lokasi" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Lokasi</a>
+        </div>
+    </nav>
 
-        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 text-center space-y-2">
-            <h2 class="text-lg font-bold text-gray-900">Lokasi & Jam Buka</h2>
-            <p class="text-sm text-gray-600">Jalan Raya Jagabita, Parung Panjang, Bogor</p>
-            <p class="text-xs text-green-600 font-medium bg-green-50 inline-block px-3 py-1 rounded-full">Buka Setiap Hari: 09.00 - 21.00 WIB</p>
+    <!-- Hero Section -->
+    <header class="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-brand-dark text-white py-16 px-4">
+        <!-- Background Overlay Image with Fallback -->
+        <div class="absolute inset-0 z-0">
+            <img id="hero-bg-img" src="logo.jpg" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626804475315-9644b37a2fe4?auto=format&fit=crop&q=80&w=1200';" 
+                 alt="Mie Ayam Kolong Awi Background" 
+                 class="w-full h-full object-cover opacity-35 object-center scale-105 transform hover:scale-100 transition-transform duration-[10s]">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/85 to-transparent"></div>
         </div>
 
+        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-amber-300 text-xs md:text-sm font-semibold tracking-wide border border-white/20 uppercase">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                Mie Ayam Legendaris Sejak Era Baru
+            </div>
+            <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight">
+                MIE AYAM <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 via-rose-400 to-amber-300">KOLONG AWI</span>
+            </h1>
+            <p class="text-lg md:text-2xl text-stone-200 max-w-2xl mx-auto font-light leading-relaxed">
+                Menghadirkan kenikmatan cita rasa bintang lima dengan harga kaki lima. Gurih, mantap, dan <span class="text-amber-300 font-bold decoration-amber-400 decoration-wavy underline">bikin ketagihan!</span>
+            </p>
+            
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl shadow-lg shadow-brand-600/30 hover:shadow-brand-600/50 transform hover:-translate-y-0.5 active:translate-y-0 transition-all text-center">
+                    <i class="fa-solid fa-utensils mr-2"></i> Jelajahi Menu
+                </a>
+                <a href="#roda-keberuntungan" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/25 text-white font-semibold rounded-2xl border border-white/20 backdrop-blur-md hover:border-white/40 transition-all text-center">
+                    🎯 Klaim Promo Disini
+                </a>
+            </div>
+
+            <!-- Price Highlight Badge -->
+            <div class="pt-6 inline-flex flex-col items-center">
+                <div class="text-stone-400 text-xs uppercase tracking-widest">Harga Mulai Dari</div>
+                <div class="bg-amber-400 text-stone-900 font-black text-2xl md:text-3xl px-6 py-2 rounded-2xl shadow-xl border-4 border-white transform -rotate-2 hover:rotate-0 transition-transform">
+                    Hanya Rp 12.000,- !
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Core Pitch / Keunggulan (Tentang) -->
+    <section id="tentang" class="py-16 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-extrabold tracking-widest text-xs uppercase block mb-2">Kenapa Harus Kami?</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-stone-900">Rasa Elit, Harga Sangat Irit</h2>
+                <div class="h-1 w-16 bg-brand-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-rose-100 text-brand-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-mortar-pestle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Resep Rahasia Autentik</h3>
+                    <p class="text-stone-600">Bumbu tumisan ayam melimpah dengan racikan rempah nusantara asli yang meresap sempurna, dijamin beda dari yang lain.</p>
+                </div>
+                <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-amber-100 text-amber-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-wheat-awn"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Mie Buatan Sendiri</h3>
+                    <p class="text-stone-600">Mie dibuat segar setiap hari tanpa bahan pengawet buatan. Bertekstur kenyal, lembut, dan pas sekali di lidah.</p>
+                </div>
+                <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="bg-emerald-100 text-emerald-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Sangat Ekonomis</h3>
+                    <p class="text-stone-600">Cukup mulai dengan Rp 12.000 saja Anda sudah bisa menikmati porsi kenyang, lezat, higienis, dan sehat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Section -->
+    <section id="menu" class="py-16 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-brand-600 font-extrabold tracking-widest text-xs uppercase block mb-2">Daftar Menu Istimewa</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-stone-900">Pilih & Atur Mie Impianmu</h2>
+                <div class="h-1 w-16 bg-brand-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Category Filtering Tabs -->
+            <div class="flex justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none">
+                <button onclick="filterMenu('all')" id="tab-all" class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-brand-600 text-white">Semua Menu</button>
+                <button onclick="filterMenu('makanan')" id="tab-makanan" class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-white text-stone-600 hover:bg-stone-100">Mie Ayam</button>
+                <button onclick="filterMenu('bakso')" id="tab-bakso" class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-white text-stone-600 hover:bg-stone-100">Bakso & Topping</button>
+                <button onclick="filterMenu('minuman')" id="tab-minuman" class="tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-white text-stone-600 hover:bg-stone-100">Minuman Segar</button>
+            </div>
+
+            <!-- Menu Cards Grid -->
+            <div id="menu-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Javascript will load the menu items dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lucky Spin The Wheel (Gamification) -->
+    <section id="roda-keberuntungan" class="py-16 bg-gradient-to-br from-brand-900 via-brand-800 to-stone-900 text-white overflow-hidden relative">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/5 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Details -->
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 px-4 py-1.5 rounded-full text-sm font-bold border border-amber-400/30">
+                        <i class="fa-solid fa-ticket animate-bounce"></i> PROMO MAKAN HEMAT
+                    </div>
+                    <h2 class="font-serif text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                        Roda Keberuntungan <br><span class="text-amber-400">Kolong Awi</span>
+                    </h2>
+                    <p class="text-stone-300 text-lg max-w-lg mx-auto lg:mx-0 font-light">
+                        Makan makin hemat! Putar rodanya dan dapatkan kupon diskon spesial atau topping gratis untuk langsung dipasang di keranjang belanjamu.
+                    </p>
+                    
+                    <!-- Rules/Prizes -->
+                    <div class="grid grid-cols-2 gap-4 max-w-md mx-auto lg:mx-0 text-left text-sm pt-2">
+                        <div class="flex items-center gap-2 text-stone-200">
+                            <i class="fa-solid fa-circle-check text-green-400"></i> Gratis Es Teh Manis
+                        </div>
+                        <div class="flex items-center gap-2 text-stone-200">
+                            <i class="fa-solid fa-circle-check text-green-400"></i> Diskon Potongan 10%
+                        </div>
+                        <div class="flex items-center gap-2 text-stone-200">
+                            <i class="fa-solid fa-circle-check text-green-400"></i> Gratis Topping Pangsit
+                        </div>
+                        <div class="flex items-center gap-2 text-stone-200">
+                            <i class="fa-solid fa-circle-check text-green-400"></i> Gratis Topping Ceker
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Wheel Canvas & Game Interface -->
+                <div class="flex flex-col items-center justify-center">
+                    <div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-stone-900 rounded-full border-8 border-amber-400 shadow-2xl shadow-amber-400/20 flex items-center justify-center p-2">
+                        <!-- Triangle Pointer -->
+                        <div class="absolute -top-1 z-30 transform -translate-x-1/2 left-1/2 w-0 h-0 border-l-[16px] border-r-[16px] border-t-[32px] border-l-transparent border-r-transparent border-t-amber-400 filter drop-shadow"></div>
+                        
+                        <!-- Canvas -->
+                        <canvas id="wheel-canvas" class="w-full h-full rounded-full transition-transform duration-1000 ease-out"></canvas>
+                        
+                        <!-- Spin Button Center -->
+                        <button onclick="spinWheel()" id="spin-btn" class="absolute z-20 h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-amber-400 text-stone-900 font-extrabold text-sm sm:text-base border-4 border-white shadow-lg flex items-center justify-center uppercase hover:scale-105 active:scale-95 transition-all">
+                            PUTAR
+                        </button>
+                    </div>
+                    
+                    <!-- Code Display area -->
+                    <div id="promo-result" class="mt-8 opacity-0 transition-opacity duration-300 w-full max-w-sm">
+                        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl text-center space-y-3">
+                            <div class="text-xs text-stone-300 uppercase tracking-widest font-bold">Selamat! Anda Mendapatkan:</div>
+                            <div id="promo-title" class="text-xl sm:text-2xl font-black text-amber-300">Gratis Es Teh Manis</div>
+                            <div class="flex items-center justify-between bg-stone-950/40 p-3 rounded-xl border border-white/10 mt-2">
+                                <code id="promo-code" class="font-mono text-sm sm:text-base text-stone-200 select-all font-bold">KOLONGTEE</code>
+                                <button onclick="applyPromoCode()" class="bg-amber-400 hover:bg-amber-500 text-stone-900 px-4 py-1.5 rounded-lg text-xs font-bold transition-all">
+                                    Pakai Kupon
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="ulasan" class="py-16 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-extrabold tracking-widest text-xs uppercase block mb-2">Suara Pelanggan Setia</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-stone-900">Ulasan & Testimoni Jujur</h2>
+                <div class="h-1 w-16 bg-brand-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Review Cards Grid -->
+            <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Write Review Form Container -->
+            <div class="max-w-xl mx-auto bg-stone-50 border border-stone-200 p-6 sm:p-8 rounded-3xl shadow-sm">
+                <h3 class="text-xl font-bold text-stone-900 mb-2 text-center">Bagikan Pengalaman Anda 🍜</h3>
+                <p class="text-stone-600 text-sm mb-6 text-center">Apakah anda menyukai cita rasa Mie Ayam Kolong Awi? Kirimkan ulasan Anda!</p>
+                
+                <form id="review-form" onsubmit="submitReview(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-stone-700 mb-1">Nama Lengkap</label>
+                        <input type="text" id="reviewer-name" required placeholder="Contoh: Budi Santoso" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-stone-700 mb-1">Rating Bintang</label>
+                        <div class="flex gap-2 text-xl text-stone-300 cursor-pointer" id="rating-stars-input">
+                            <i class="fa-solid fa-star transition-colors hover:text-amber-400" onclick="setFormRating(1)"></i>
+                            <i class="fa-solid fa-star transition-colors hover:text-amber-400" onclick="setFormRating(2)"></i>
+                            <i class="fa-solid fa-star transition-colors hover:text-amber-400" onclick="setFormRating(3)"></i>
+                            <i class="fa-solid fa-star transition-colors hover:text-amber-400" onclick="setFormRating(4)"></i>
+                            <i class="fa-solid fa-star transition-colors hover:text-amber-400" onclick="setFormRating(5)"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-stone-700 mb-1">Komentar / Ulasan</label>
+                        <textarea id="reviewer-comment" rows="3" required placeholder="Tulis kepuasan lidah Anda di sini..." class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all text-sm shadow-md shadow-brand-600/10">
+                        Kirim Ulasan Sekarang
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Contact Info Section -->
+    <section id="lokasi" class="py-16 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 font-extrabold tracking-widest text-xs uppercase block mb-2">Lokasi & Kontak</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-stone-900">Mampir Ke Kedai Kami</h2>
+                <div class="h-1 w-16 bg-brand-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                <!-- Location Map Mockup (Stylized SVG & Interactive Interface) -->
+                <div class="bg-white border border-stone-200 p-6 rounded-3xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+                    <div class="absolute top-4 right-4 bg-brand-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-sm z-10 animate-bounce">
+                        📍 Lokasi Kami
+                    </div>
+                    
+                    <!-- Stylized Vector Map Mockup -->
+                    <div class="bg-amber-50 h-64 rounded-2xl border border-amber-200 relative overflow-hidden flex items-center justify-center">
+                        <!-- Simulated Roads -->
+                        <div class="absolute h-10 w-full bg-stone-200 top-1/2 -translate-y-1/2 left-0 transform rotate-12"></div>
+                        <div class="absolute w-12 h-full bg-stone-200 left-1/3 top-0 transform -rotate-12"></div>
+                        
+                        <!-- Simulated Greenery -->
+                        <div class="absolute w-24 h-24 bg-emerald-100 rounded-full blur-xl top-6 left-6 opacity-60"></div>
+                        <div class="absolute w-32 h-32 bg-emerald-200 rounded-full blur-xl bottom-6 right-12 opacity-60"></div>
+                        
+                        <!-- Pin point indicator -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 text-center flex flex-col items-center">
+                            <div class="relative">
+                                <i class="fa-solid fa-location-dot text-brand-600 text-5xl filter drop-shadow animate-bounce"></i>
+                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-3/4 h-3 w-3 rounded-full bg-white"></span>
+                            </div>
+                            <span class="mt-1 bg-stone-900 text-white text-xs px-2.5 py-1 rounded-md font-semibold whitespace-nowrap shadow-lg">Mie Ayam Kolong Awi</span>
+                        </div>
+                        
+                        <!-- Map Grid Background overlay -->
+                        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,_transparent_1px),_linear-gradient(90deg,_rgba(0,0,0,0.05)_1px,_transparent_1px)] bg-[size:20px_20px]"></div>
+                    </div>
+
+                    <div class="mt-6 space-y-4">
+                        <h3 class="text-xl font-bold text-stone-900">Alamat Lengkap</h3>
+                        <p class="text-stone-600 leading-relaxed text-sm">
+                            Jl. Raya jagabita (di Kolong  Awi ), Samping kantor desa jagabita, Kec. Parung Panjang, Jawa Barat.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <a href="https://maps.google.com" target="_blank" class="flex-1 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold rounded-xl text-center text-xs transition-all">
+                                <i class="fa-solid fa-map-location-dot mr-2 text-brand-600"></i> Buka Google Maps
+                            </a>
+                            <a href="https://wa.me/628123456789" target="_blank" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-center text-xs transition-all shadow-md shadow-emerald-600/10">
+                                <i class="fa-brands fa-whatsapp mr-2"></i> Chat Whatsapp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Open times & Contact Details -->
+                <div class="space-y-6">
+                    <div class="bg-white border border-stone-200 p-8 rounded-3xl shadow-sm">
+                        <h3 class="text-xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-store text-brand-600"></i> Jam Operasional & Layanan
+                        </h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-2 border-b border-stone-100 text-sm">
+                                <span class="font-medium text-stone-700">Senin - Kamis</span>
+                                <span class="text-stone-600">10:00 - 21:00 WIB</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-stone-100 text-sm">
+                                <span class="font-medium text-stone-700">Jumat</span>
+                                <span class="text-stone-600">13:00 - 21:00 WIB</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-stone-100 text-sm">
+                                <span class="font-medium text-stone-700">Sabtu - Minggu</span>
+                                <span class="text-stone-600 font-semibold text-brand-600">10:00 - 22:00 WIB</span>
+                            </div>
+                        </div>
+
+                        <!-- Highlights -->
+                        <div class="mt-8 grid grid-cols-2 gap-4 text-xs">
+                            <div class="bg-stone-50 p-4 rounded-2xl flex flex-col items-center text-center border border-stone-100">
+                                <i class="fa-solid fa-motorcycle text-brand-600 text-lg mb-2"></i>
+                                <span class="font-bold block">Delivery Ready</span>
+                                <span class="text-stone-500 text-[10px] mt-0.5">Menerima pengiriman area sekitar</span>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-2xl flex flex-col items-center text-center border border-stone-100">
+                                <i class="fa-solid fa-shop text-brand-600 text-lg mb-2"></i>
+                                <span class="font-bold block">tempat nyaman</span>
+                                <span class="text-stone-500 text-[10px] mt-0.5">Suasana adem di kolong awi </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Order Fast Call -->
+                    <div class="bg-brand-600 text-white p-8 rounded-3xl shadow-xl shadow-brand-600/10 flex items-center justify-between">
+                        <div class="space-y-1">
+                            <div class="text-rose-100 text-xs font-bold uppercase tracking-widest">Pesan Cepat via Telepon</div>
+                            <div class="text-2xl font-black">085710650502</div>
+                            <div class="text-xs text-rose-200">Sedia pesanan dalam porsi besar / acara syukuran.</div>
+                        </div>
+                        <a href="tel:08123456789" class="h-14 w-14 rounded-2xl bg-white text-brand-600 flex items-center justify-center text-2xl shadow hover:scale-105 transition-transform">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Interactive Customization Modal -->
+    <div id="customize-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div onclick="closeCustomizeModal()" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm"></div>
+        
+        <!-- Modal Card -->
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 relative z-10 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closeCustomizeModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 p-1 rounded-full hover:bg-stone-100 transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="flex gap-4 items-start pb-4 border-b border-stone-100">
+                <img id="modal-item-img" src="" alt="Noodle Image" class="w-20 h-20 rounded-2xl object-cover border border-stone-200 shadow-sm">
+                <div>
+                    <h3 id="modal-item-title" class="text-xl font-bold text-stone-900">Mie Ayam Istimewa</h3>
+                    <p id="modal-item-desc" class="text-stone-500 text-xs mt-1">Mie kenyal dengan topping ayam bumbu melimpah</p>
+                    <span id="modal-item-price-tag" class="text-brand-600 font-extrabold text-lg mt-2 inline-block">Rp 12.000</span>
+                </div>
+            </div>
+
+            <!-- Customizer Options Form -->
+            <div class="space-y-6">
+                <!-- Size Options -->
+                <div>
+                    <span class="block font-semibold text-stone-800 text-sm mb-2.5">Pilih Porsi</span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="border border-stone-200 hover:border-brand-500 rounded-xl p-3 flex justify-between items-center cursor-pointer transition-all">
+                            <div class="flex items-center gap-2">
+                                <input type="radio" name="porsi-size" value="normal" checked onchange="updateModalTotal()" class="accent-brand-600">
+                                <span class="text-sm font-medium text-stone-700">Normal</span>
+                            </div>
+                            <span class="text-xs text-stone-500">Gratis</span>
+                        </label>
+                        <label class="border border-stone-200 hover:border-brand-500 rounded-xl p-3 flex justify-between items-center cursor-pointer transition-all">
+                            <div class="flex items-center gap-2">
+                                <input type="radio" name="porsi-size" value="jumbo" onchange="updateModalTotal()" class="accent-brand-600">
+                                <span class="text-sm font-medium text-stone-700">Jumbo</span>
+                            </div>
+                            <span class="text-xs text-brand-600 font-semibold">+Rp 4.000</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Spiciness Slider -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="block font-semibold text-stone-800 text-sm">Tingkat Kepedasan</span>
+                        <span id="spice-level-text" class="text-xs font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded">Level 0 (Gak Pedes)</span>
+                    </div>
+                    <input type="range" id="spice-range" min="0" max="5" value="0" step="1" oninput="updateSpiceLevelText(this.value)" class="w-full accent-brand-600 cursor-pointer">
+                    <div class="flex justify-between text-[10px] text-stone-400 font-bold px-1 mt-1">
+                        <span>Lvl 0</span>
+                        <span>Lvl 1</span>
+                        <span>Lvl 2</span>
+                        <span>Lvl 3</span>
+                        <span>Lvl 4</span>
+                        <span>Lvl 5 (Membara!)</span>
+                    </div>
+                </div>
+
+                <!-- Extra Topping Checkboxes -->
+                <div>
+                    <span class="block font-semibold text-stone-800 text-sm mb-2.5">Topping Tambahan</span>
+                    <div class="space-y-2">
+                        <label class="flex justify-between items-center border border-stone-200 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition-all">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="top-bakso" onchange="updateModalTotal()" class="rounded accent-brand-600 h-4 w-4">
+                                <span class="text-sm text-stone-700">Bakso Sapi Urat (2 Pcs)</span>
+                            </div>
+                            <span class="text-xs text-brand-600 font-bold">+Rp 3.000</span>
+                        </label>
+                        <label class="flex justify-between items-center border border-stone-200 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition-all">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="top-pangsit" onchange="updateModalTotal()" class="rounded accent-brand-600 h-4 w-4">
+                                <span class="text-sm text-stone-700">Pangsit Goreng (2 Pcs)</span>
+                            </div>
+                            <span class="text-xs text-brand-600 font-bold">+Rp 2.000</span>
+                        </label>
+                        <label class="flex justify-between items-center border border-stone-200 hover:border-brand-500 rounded-xl p-3 cursor-pointer transition-all">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="top-ceker" onchange="updateModalTotal()" class="rounded accent-brand-600 h-4 w-4">
+                                <span class="text-sm text-stone-700">Ceker Ayam Lembut (2 Pcs)</span>
+                            </div>
+                            <span class="text-xs text-brand-600 font-bold">+Rp 2.000</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Quantity Control -->
+                <div class="flex justify-between items-center pt-4 border-t border-stone-100">
+                    <span class="font-semibold text-stone-800 text-sm">Jumlah Pembelian</span>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeModalQty(-1)" class="h-8 w-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center hover:bg-stone-200 font-bold text-lg">-</button>
+                        <span id="modal-qty" class="font-extrabold text-stone-900 w-6 text-center">1</span>
+                        <button onclick="changeModalQty(1)" class="h-8 w-8 rounded-lg bg-stone-100 text-stone-700 flex items-center justify-center hover:bg-stone-200 font-bold text-lg">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Price Action Bar inside modal -->
+            <div class="bg-stone-50 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-6 flex justify-between items-center border-t border-stone-200 rounded-b-3xl">
+                <div>
+                    <span class="text-xs text-stone-500 block">Total Pembayaran</span>
+                    <span id="modal-total-display" class="text-xl font-extrabold text-brand-600">Rp 12.000</span>
+                </div>
+                <button onclick="addCurrentItemToCart()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md shadow-brand-600/10 hover:shadow-brand-600/30 transition-all text-sm">
+                    Masukkan Keranjang
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="text-center py-6 text-xs text-gray-400 border-t mt-8 bg-white">
-        &copy; 2026 Mie Ayam Kolong Awi. Semua Hak Dilindungi.
+    <!-- Sliding Cart Side Drawer -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-6 border-b border-stone-200 flex justify-between items-center bg-stone-50">
+            <h3 class="text-lg font-bold text-stone-900 flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-brand-600"></i> Keranjang Belanjaan
+            </h3>
+            <button onclick="toggleCart()" class="text-stone-400 hover:text-stone-700 p-2 rounded-lg hover:bg-stone-100 transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List (Scrollable) -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+            <!-- Dynamic Cart Items loaded from JS -->
+            <div class="flex flex-col items-center justify-center h-full text-stone-400 space-y-3">
+                <i class="fa-solid fa-basket-shopping text-5xl opacity-40"></i>
+                <p class="font-medium">Keranjang Anda masih kosong</p>
+                <a href="#menu" onclick="toggleCart()" class="text-xs font-bold text-brand-600 hover:underline">Yuk pesen Mie Ayam spesial dulu!</a>
+            </div>
+        </div>
+
+        <!-- Checkout Info Panel -->
+        <div class="p-6 border-t border-stone-200 bg-stone-50 space-y-4">
+            
+            <!-- Applied Voucher Indicator -->
+            <div id="applied-promo-card" class="hidden flex justify-between items-center bg-emerald-50 text-emerald-800 p-3 rounded-xl border border-emerald-200 text-xs">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-tags text-sm"></i>
+                    <div>
+                        <span class="font-bold">Kupon Aktif:</span>
+                        <span id="applied-promo-desc" class="block font-medium">Potongan Diskon 10%</span>
+                    </div>
+                </div>
+                <button onclick="removePromoCode()" class="text-emerald-600 hover:text-emerald-900 font-bold p-1">Hapus</button>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-sm text-stone-600">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span id="subtotal-display">Rp 0</span>
+                </div>
+                <div id="discount-row" class="hidden flex justify-between text-emerald-600 font-semibold">
+                    <span>Diskon Kupon</span>
+                    <span id="discount-display">-Rp 0</span>
+                </div>
+                <div class="flex justify-between text-stone-900 font-extrabold text-base pt-2 border-t border-stone-200">
+                    <span>Total Akhir</span>
+                    <span id="total-display">Rp 0</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Input Details -->
+            <div class="space-y-3 pt-2">
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Nama Pemesan</label>
+                    <input type="text" id="order-name" placeholder="Isikan nama anda" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 focus:outline-none focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="border border-stone-200 rounded-lg p-2.5 flex items-center gap-1.5 cursor-pointer text-xs font-medium">
+                        <input type="radio" name="order-type" value="dine-in" checked class="accent-brand-600"> Dine-In / Meja
+                    </label>
+                    <label class="border border-stone-200 rounded-lg p-2.5 flex items-center gap-1.5 cursor-pointer text-xs font-medium">
+                        <input type="radio" name="order-type" value="delivery" class="accent-brand-600"> Delivery / Kirim
+                    </label>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-stone-700 mb-1">Nomor Meja / Alamat Lengkap</label>
+                    <input type="text" id="order-address" placeholder="Contoh: Meja No.5 atau Jl. Mawar No.3" class="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 focus:outline-none focus:ring-1 focus:ring-brand-500/20 focus:border-brand-500">
+                </div>
+            </div>
+
+            <button onclick="checkoutToWhatsApp()" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 transition-all text-sm">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Kirim Pesanan via WhatsApp
+            </button>
+        </div>
     </div>
 
+    <!-- Admin Password/PIN Verification Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div onclick="closeAuthModal()" class="fixed inset-0 bg-stone-900/65 backdrop-blur-sm"></div>
+        
+        <!-- Modal Card -->
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 relative z-10 shadow-2xl text-center space-y-5 border border-stone-150">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 p-1 rounded-full hover:bg-stone-100 transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="mx-auto h-16 w-16 bg-amber-50 rounded-2xl flex items-center justify-center text-3xl text-amber-500 border border-amber-100">
+                <i class="fa-solid fa-shield-halved animate-pulse"></i>
+            </div>
+            
+            <div class="space-y-1">
+                <h3 class="text-xl font-black text-stone-900">Verifikasi Admin</h3>
+                <p class="text-stone-500 text-xs leading-relaxed">Masukkan PIN Keamanan untuk membuka fitur modifikasi gambar.</p>
+            </div>
+
+            <!-- PIN Form input -->
+            <form onsubmit="verifyAdminPIN(event)" class="space-y-4">
+                <div class="relative">
+                    <input type="password" id="admin-pin-input" required maxlength="8" placeholder="Masukkan PIN" class="w-full px-4 py-3 text-center text-lg font-black tracking-widest rounded-xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all">
+                </div>
+                
+                <!-- Error Message Banner in Modal -->
+                <div id="auth-error-msg" class="hidden text-xs text-rose-600 font-bold bg-rose-50 p-2.5 rounded-lg border border-rose-100 animate-pulse">
+                    ⚠️ PIN Admin Salah! Silakan coba lagi.
+                </div>
+
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeAuthModal()" class="flex-1 py-3 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl text-xs transition-all">
+                        Batal
+                    </button>
+                    <button type="submit" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-brand-600/10">
+                        Masuk PIN
+                    </button>
+                </div>
+            </form>
+            <div class="text-[10px] text-stone-400 font-semibold">*(PIN Default bawaan adalah: <span class="text-stone-500 select-all font-bold">1234</span>)*</div>
+        </div>
+    </div>
+
+    <!-- Admin Image Management Modal -->
+    <div id="admin-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div onclick="closeAdminModal()" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm"></div>
+        
+        <!-- Modal Card -->
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative z-10 shadow-2xl space-y-6 max-h-[85vh] overflow-y-auto custom-scrollbar">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 p-1 rounded-full hover:bg-stone-100 transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="border-b border-stone-100 pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <h3 class="text-2xl font-black text-stone-900 flex items-center gap-2">
+                        <i class="fa-solid fa-camera text-brand-600"></i> Pengaturan Gambar Kedai
+                    </h3>
+                    <p class="text-stone-500 text-xs sm:text-sm mt-1">Ganti gambar banner utama dan foto menu mie ayam Anda menggunakan tangkapan layar HP.</p>
+                </div>
+                <!-- Lock / Logout Admin button -->
+                <button onclick="logoutAdmin()" class="self-start sm:self-center px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock"></i> Kunci Sesi Admin
+                </button>
+            </div>
+
+            <!-- Image Settings Rows -->
+            <div class="space-y-6">
+                <!-- Row 1: Banner Header -->
+                <div class="bg-stone-50 border border-stone-200 p-4 rounded-2xl flex flex-col sm:flex-row items-center gap-4 justify-between">
+                    <div class="flex items-center gap-3">
+                        <img id="preview-banner-img" src="logo.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626804475315-9644b37a2fe4?auto=format&fit=crop&q=80&w=200';" alt="Banner Preview" class="w-16 h-16 rounded-xl object-cover border border-stone-200 shadow-sm">
+                        <div>
+                            <span class="block font-bold text-stone-900 text-sm">Gambar Banner Utama</span>
+                            <span class="block text-[10px] text-stone-400 font-semibold uppercase">Header Atas Situs</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="file" id="upload-banner-input" accept="image/*" onchange="handleImageUpload(event, 'banner')" class="hidden">
+                        <button onclick="document.getElementById('upload-banner-input').click()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-arrow-up"></i> Unggah Gambar (.jpg)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Row 2 onwards: Dynamically Populated Menu Items -->
+                <div class="space-y-4">
+                    <span class="block font-bold text-stone-800 text-sm border-b border-stone-100 pb-2">Foto Menu Makanan & Minuman</span>
+                    <div id="admin-menu-list" class="space-y-3">
+                        <!-- Loaded dynamically via JavaScript loop -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-stone-50 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-4 flex justify-end items-center border-t border-stone-200 rounded-b-3xl">
+                <button onclick="closeAdminModal()" class="px-6 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs font-bold rounded-xl transition-all">
+                    Selesai & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Toast Container -->
+    <div id="toast-container" class="fixed bottom-4 left-4 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- Footer -->
+    <footer class="mt-auto bg-stone-900 text-white border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Brand Info Column -->
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-brand-600 text-white p-2 rounded-xl">
+                            <i class="fa-solid fa-bowl-food text-xl"></i>
+                        </div>
+                        <span class="font-serif text-xl font-black text-white tracking-tight">KOLONG AWI</span>
+                    </div>
+                    <p class="text-stone-400 text-sm max-w-sm leading-relaxed">
+                        Kami berkomitmen menghadirkan porsi makan nikmat, segar, higienis, ramah di kantong dan memanjakan lidah setiap saat.
+                    </p>
+                    <div class="flex gap-4 pt-2">
+                        <a href="#" class="h-8 w-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-stone-300 hover:text-white transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="h-8 w-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-stone-300 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="h-8 w-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-stone-300 hover:text-white transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigation Quick Links -->
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-amber-400 mb-4">Navigasi Halaman</h4>
+                    <ul class="space-y-2 text-sm text-stone-400">
+                        <li><a href="#tentang" class="hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#menu" class="hover:text-white transition-colors">Daftar Menu</a></li>
+                        <li><a href="#roda-keberuntungan" class="hover:text-white transition-colors">Spin & Win</a></li>
+                        <li><a href="#ulasan" class="hover:text-white transition-colors">Testimoni Pelanggan</a></li>
+                        <li><a href="#lokasi" class="hover:text-white transition-colors">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+
+                <!-- Fast Contact info -->
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-amber-400 mb-4">Kontak Kami</h4>
+                    <ul class="space-y-2.5 text-sm text-stone-400">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-500 mt-1"></i>
+                            <span>Kec. Parung Panjang, Jawa Barat</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-emerald-500"></i>
+                            <span>085710650502</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-blue-400"></i>
+                            <span>info@mieayamkolongawi.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-stone-800 mt-12 pt-6 text-center text-stone-500 text-xs">
+                <p>&copy; 2026 Mie Ayam Kolong Awi. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p class="mt-1">Dibuat dengan penuh rasa cinta & kelezatan cita rasa Nusantara.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Logic Core script -->
+    <script>
+        // Web Audio Context for Retro Synthesizer Sound Effects
+        let audioCtx = null;
+        function playSound(type) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'tick') {
+                    // Play a quick woodblock/wheel tick
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(120, now + 0.05);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.linearRampToValueAtTime(0, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'win') {
+                    // Upbeat retro fanfare chime
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.setValueAtTime(0.2, now + 0.3);
+                    gain.gain.linearRampToValueAtTime(0, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } else if (type === 'cart') {
+                    // Sweet bubble drop sound
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(900, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.linearRampToValueAtTime(0, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                }
+            } catch (e) {
+                console.log("Audio disabled or not supported by browser security constraints");
+            }
+        }
+
+        // --- STATE MANAGEMENT ---
+        const menuItems = [
+            {
+                id: 'm1',
+                title: 'Mie Ayam Istimewa',
+                category: 'makanan',
+                description: 'Mie kenyal dengan topping ayam bumbu melimpah, sayuran segar, kuah kaldu murni, dan pangsit basah lembut.',
+                price: 12000,
+                img: 'IMG_20260512_203749.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 'm2',
+                title: 'Porsi Puas Dua Mangkok',
+                category: 'makanan',
+                description: 'Pas buat makan berdua atau lagi laper berat. Dua porsi mie ayam istimewa disajikan hangat bertemankan pangsit renyah.',
+                price: 24000,
+                img: 'IMG_20260517_195920.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 'm3',
+                title: 'Mie Ayam Kolong Awi Spesial',
+                category: 'makanan',
+                description: 'Cita rasa autentik istimewa dengan taburan bawang goreng harum, disajikan memakai mangkok legendaris Kolong Awi.',
+                price: 15000,
+                img: 'IMG_20260421_175404.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 'm4',
+                title: 'Bakso Sapi Urat Kuah',
+                category: 'bakso',
+                description: 'Satu porsi isi 5 bakso sapi urat jumbo empuk gurih yang disajikan bersama kuah sup kaldu bening nan menyegarkan.',
+                price: 12000,
+                img: 'bakso.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 'm5',
+                title: 'Es Teh Manis Selasih',
+                category: 'minuman',
+                description: 'Es teh seduh alami super segar, manisnya pas dari gula asli dicampur taburan biji selasih berkhasiat.',
+                price: 3000,
+                img: 'esteh.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=800'
+            },
+            {
+                id: 'm6',
+                title: 'Es Jeruk Nipis Madu',
+                category: 'minuman',
+                description: 'Perasan jeruk nipis asli dipadukan dengan sensasi dingin es dan pemanis alami madu hutan.',
+                price: 5000,
+                img: 'esjeruk.jpg',
+                fallbackImg: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=800'
+            }
+        ];
+
+        let cart = [];
+        let reviews = [
+            { name: "Andri Wijaya", rating: 5, comment: "Mie ayam paling mantap di Parung Panjang! Topping ayamnya gila melimpah bgt gak pelit. Murah tapi rasanya premium pol!" },
+            { name: "Siti Rahma", rating: 5, comment: "Tempatnya asik adem di kolong pohon bambu. Pas banget makan mie anget pas siang hari. Sambalnya juara pedesnya!" },
+            { name: "Joko Susilo", rating: 4, comment: "Udah langganan 1 tahun lebih disini. Harganya super murah meriah pas di dompet anak kosan. Sukses terus Kolong Awi!" }
+        ];
+
+        let activeCategory = 'all';
+        let currentItemToCustomize = null;
+        let activePromo = null;
+
+        // Security Authentication State
+        let isAdminAuthenticated = false;
+        const ADMIN_PIN = "1234"; // Anda bisa mengganti PIN default di sini
+
+        // Form Rating State
+        let currentFormRating = 5;
+
+        // --- WHEEL DRAWING & SPIN LOGIC ---
+        const sectors = [
+            { label: "Gratis Es Teh", value: "TEH", code: "KOLONGTEE" },
+            { label: "Zonk! Coba Lagi", value: "ZONK", code: "" },
+            { label: "Diskon 10%", value: "DISKON10", code: "KOLONG10" },
+            { label: "Zonk! Belum Mujur", value: "ZONK2", code: "" },
+            { label: "Gratis Topping Ceker", value: "CEKER", code: "KOLONGCEKER" },
+            { label: "Gratis Topping Pangsit", value: "PANGSIT", code: "KOLONGPANGSIT" }
+        ];
+
+        const colors = ["#be123c", "#374151", "#d97706", "#374151", "#be123c", "#d97706"];
+        let wheelCanvas = document.getElementById("wheel-canvas");
+        let ctx = wheelCanvas.getContext("2d");
+        let isSpinning = false;
+        let currentRotation = 0;
+
+        function resizeCanvas() {
+            const size = wheelCanvas.parentElement.clientWidth - 16;
+            wheelCanvas.width = size;
+            wheelCanvas.height = size;
+            drawWheel();
+        }
+
+        function drawWheel() {
+            const width = wheelCanvas.width;
+            const height = wheelCanvas.height;
+            const radius = width / 2;
+            const totalSectors = sectors.length;
+            const arc = Math.PI * 2 / totalSectors;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw sectors
+            for (let i = 0; i < totalSectors; i++) {
+                const angle = i * arc;
+                ctx.beginPath();
+                ctx.fillStyle = colors[i];
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 8, angle, angle + arc);
+                ctx.lineTo(radius, radius);
+                ctx.fill();
+
+                // Draw Text
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + arc / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 11px sans-serif";
+                if (width > 300) ctx.font = "bold 13px sans-serif";
+                ctx.fillText(sectors[i].label, radius - 25, 5);
+                ctx.restore();
+            }
+
+            // Outer golden ring
+            ctx.beginPath();
+            ctx.arc(radius, radius, radius - 4, 0, Math.PI * 2);
+            ctx.strokeStyle = "#fbbf24";
+            ctx.lineWidth = 8;
+            ctx.stroke();
+        }
+
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+            document.getElementById("spin-btn").disabled = true;
+
+            // Synthesis click ticks during wheel rotation
+            let ticksCount = 0;
+            const spinSoundInterval = setInterval(() => {
+                playSound('tick');
+                ticksCount++;
+                if (ticksCount > 15) clearInterval(spinSoundInterval);
+            }, 150);
+
+            // Choose random sector
+            const sectorIndex = Math.floor(Math.random() * sectors.length);
+            const totalSectors = sectors.length;
+            const arcSize = 360 / totalSectors;
+            
+            // Calc exact rotation to point selected sector to top (pointer is at -90 degrees/top)
+            const targetRotation = 360 * 5 + (360 - (sectorIndex * arcSize) - (arcSize / 2)) - 90;
+
+            wheelCanvas.style.transition = "transform 4s cubic-bezier(0.1, 0.8, 0.3, 1)";
+            wheelCanvas.style.transform = `rotate(${targetRotation}deg)`;
+
+            setTimeout(() => {
+                clearInterval(spinSoundInterval);
+                isSpinning = false;
+                document.getElementById("spin-btn").disabled = false;
+                
+                const winSector = sectors[sectorIndex];
+                const resultDiv = document.getElementById("promo-result");
+                
+                if (winSector.value.startsWith("ZONK")) {
+                    document.getElementById("promo-title").innerText = "Sayang Sekali! Coba lagi besok ya!";
+                    document.getElementById("promo-code").innerText = "COBA-LAGI";
+                    resultDiv.classList.remove("opacity-0");
+                    showToast("😢 Anda belum beruntung, silakan coba lagi!", "warning");
+                } else {
+                    playSound('win');
+                    document.getElementById("promo-title").innerText = winSector.label;
+                    document.getElementById("promo-code").innerText = winSector.code;
+                    resultDiv.classList.remove("opacity-0");
+                    showToast(`🎉 Selamat! Anda mendapatkan voucher ${winSector.label}!`, "success");
+                }
+            }, 4000);
+        }
+
+        function applyPromoCode() {
+            const code = document.getElementById("promo-code").innerText;
+            if (code === "COBA-LAGI" || code === "") {
+                showToast("Kupon ini tidak valid.", "error");
+                return;
+            }
+
+            // Find sector detail
+            const sector = sectors.find(s => s.code === code);
+            if (!sector) return;
+
+            activePromo = {
+                code: sector.code,
+                label: sector.label,
+                value: sector.value
+            };
+
+            // Update checkout view
+            document.getElementById("applied-promo-card").classList.remove("hidden");
+            document.getElementById("applied-promo-desc").innerText = sector.label;
+            
+            showToast("🎟️ Voucher Promo berhasil terpasang di Keranjang!", "success");
+            playSound('win');
+            updateCartSummary();
+        }
+
+        function removePromoCode() {
+            activePromo = null;
+            document.getElementById("applied-promo-card").classList.add("hidden");
+            showToast("Voucher promo dihapus.", "info");
+            updateCartSummary();
+        }
+
+        // --- TOAST SYSTEM ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = `flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl border text-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto max-w-sm`;
+            
+            let bg = 'bg-white text-stone-800 border-stone-200';
+            let icon = '<i class="fa-solid fa-circle-info text-blue-500"></i>';
+            
+            if (type === 'success') {
+                bg = 'bg-emerald-50 text-emerald-800 border-emerald-100';
+                icon = '<i class="fa-solid fa-circle-check text-emerald-600"></i>';
+            } else if (type === 'error') {
+                bg = 'bg-rose-50 text-rose-800 border-rose-100';
+                icon = '<i class="fa-solid fa-circle-exclamation text-rose-600"></i>';
+            } else if (type === 'warning') {
+                bg = 'bg-amber-50 text-amber-800 border-amber-100';
+                icon = '<i class="fa-solid fa-triangle-exclamation text-amber-600"></i>';
+            }
+
+            toast.innerHTML = `
+                <div class="text-xl">${icon}</div>
+                <div class="font-medium">${message}</div>
+            `;
+            
+            toast.className += ` ${bg}`;
+            container.appendChild(toast);
+            
+            // Anim In
+            setTimeout(() => {
+                toast.classList.remove("translate-y-2", "opacity-0");
+            }, 10);
+
+            // Out & Remove
+            setTimeout(() => {
+                toast.classList.add("translate-y-2", "opacity-0");
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // --- RENDERING VIEWS ---
+        function renderMenu() {
+            const container = document.getElementById("menu-container");
+            container.innerHTML = "";
+
+            const filtered = menuItems.filter(item => {
+                if (activeCategory === 'all') return true;
+                return item.category === activeCategory;
+            });
+
+            filtered.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "bg-white border border-stone-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-56 w-full overflow-hidden bg-stone-100">
+                            <img src="${item.img}" 
+                                 onerror="this.onerror=null; this.src='${item.fallbackImg}';" 
+                                 alt="${item.title}" 
+                                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute top-4 left-4 bg-brand-600 text-white text-xs px-3 py-1.5 rounded-full font-extrabold shadow-sm">
+                                Rp ${item.price.toLocaleString('id-ID')}
+                            </div>
+                        </div>
+                        <div class="p-6 space-y-2">
+                            <h3 class="text-lg font-bold text-stone-900 group-hover:text-brand-600 transition-colors">${item.title}</h3>
+                            <p class="text-stone-500 text-xs sm:text-sm leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <button onclick="openCustomizeModal('${item.id}')" class="w-full py-3 bg-brand-50 hover:bg-brand-600 text-brand-600 hover:text-white font-bold rounded-xl transition-all text-xs sm:text-sm flex items-center justify-center gap-2 border border-brand-100 hover:border-transparent">
+                            <i class="fa-solid fa-plus"></i> Tambah / Kustomisasi
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterMenu(category) {
+            activeCategory = category;
+            
+            // Handle active tab style
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                btn.className = "tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-white text-stone-600 hover:bg-stone-100";
+            });
+            
+            const activeTab = document.getElementById(`tab-${category}`);
+            if (activeTab) {
+                activeTab.className = "tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-brand-600 text-white";
+            }
+            renderMenu();
+        }
+
+        // --- CUSTOMIZER MODAL INTERACTIVITY ---
+        function openCustomizeModal(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            currentItemToCustomize = JSON.parse(JSON.stringify(item)); // Deep copy template
+            
+            // Set fields inside modal
+            document.getElementById("modal-item-title").innerText = item.title;
+            document.getElementById("modal-item-desc").innerText = item.description;
+            document.getElementById("modal-item-price-tag").innerText = `Rp ${item.price.toLocaleString('id-ID')}`;
+            
+            const modalImg = document.getElementById("modal-item-img");
+            modalImg.src = item.img;
+            modalImg.onerror = () => {
+                modalImg.src = item.fallbackImg;
+            };
+
+            // Reset customizable fields
+            document.querySelector('input[name="porsi-size"][value="normal"]').checked = true;
+            document.getElementById("top-bakso").checked = false;
+            document.getElementById("top-pangsit").checked = false;
+            document.getElementById("top-ceker").checked = false;
+            document.getElementById("spice-range").value = 0;
+            document.getElementById("modal-qty").innerText = "1";
+            updateSpiceLevelText(0);
+
+            updateModalTotal();
+
+            // Open popup
+            document.getElementById("customize-modal").classList.remove("hidden");
+        }
+
+        function closeCustomizeModal() {
+            document.getElementById("customize-modal").classList.add("hidden");
+            currentItemToCustomize = null;
+        }
+
+        function updateSpiceLevelText(val) {
+            const label = document.getElementById("spice-level-text");
+            const warnings = [
+                "Level 0 (Gak Pedes)",
+                "Level 1 (Sangat Santuy)",
+                "Level 2 (Pedas Normal)",
+                "Level 3 (Pedas Menggoda)",
+                "Level 4 (Keringat Dingin!)",
+                "Level 5 (Nangis Membara! 🔥)"
+            ];
+            label.innerText = warnings[val];
+            
+            if (val >= 4) {
+                label.className = "text-xs font-bold bg-rose-100 text-rose-700 px-2 py-0.5 rounded animate-pulse";
+            } else if (val >= 2) {
+                label.className = "text-xs font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded";
+            } else {
+                label.className = "text-xs font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded";
+            }
+        }
+
+        function changeModalQty(dir) {
+            let qty = parseInt(document.getElementById("modal-qty").innerText);
+            qty += dir;
+            if (qty < 1) qty = 1;
+            document.getElementById("modal-qty").innerText = qty;
+            updateModalTotal();
+        }
+
+        function updateModalTotal() {
+            if (!currentItemToCustomize) return;
+
+            let base = currentItemToCustomize.price;
+            
+            // Portion size cost
+            const porsi = document.querySelector('input[name="porsi-size"]:checked').value;
+            if (porsi === 'jumbo') base += 4000;
+
+            // Extra Toppings cost
+            if (document.getElementById("top-bakso").checked) base += 3000;
+            if (document.getElementById("top-pangsit").checked) base += 2000;
+            if (document.getElementById("top-ceker").checked) base += 2000;
+
+            const qty = parseInt(document.getElementById("modal-qty").innerText);
+            const total = base * qty;
+
+            document.getElementById("modal-total-display").innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Add configured bowl item into dynamic shopping cart
+        function addCurrentItemToCart() {
+            if (!currentItemToCustomize) return;
+
+            const porsi = document.querySelector('input[name="porsi-size"]:checked').value;
+            const spiceLevel = document.getElementById("spice-range").value;
+            const hasBakso = document.getElementById("top-bakso").checked;
+            const hasPangsit = document.getElementById("top-pangsit").checked;
+            const hasCeker = document.getElementById("top-ceker").checked;
+            const qty = parseInt(document.getElementById("modal-qty").innerText);
+
+            let extraCost = 0;
+            let toppings = [];
+            
+            if (porsi === 'jumbo') {
+                extraCost += 4000;
+                toppings.push("Porsi Jumbo (+4k)");
+            } else {
+                toppings.push("Porsi Normal");
+            }
+            
+            toppings.push(`Pedas Level ${spiceLevel}`);
+
+            if (hasBakso) {
+                extraCost += 3000;
+                toppings.push("Extra Bakso Sapi (+3k)");
+            }
+            if (hasPangsit) {
+                extraCost += 2000;
+                toppings.push("Extra Pangsit Goreng (+2k)");
+            }
+            if (hasCeker) {
+                extraCost += 2000;
+                toppings.push("Extra Ceker Ayam (+2k)");
+            }
+
+            const finalUnitPrice = currentItemToCustomize.price + extraCost;
+
+            const cartItem = {
+                id: Date.now().toString(), // unique runtime ID
+                title: currentItemToCustomize.title,
+                basePrice: currentItemToCustomize.price,
+                extraCost: extraCost,
+                unitPrice: finalUnitPrice,
+                quantity: qty,
+                toppings: toppings,
+                porsi: porsi,
+                spiceLevel: spiceLevel
+            };
+
+            cart.push(cartItem);
+            
+            // Visual success indicator
+            playSound('cart');
+            showToast(`🛒 ${qty}x ${currentItemToCustomize.title} dimasukkan ke keranjang!`, "success");
+            
+            closeCustomizeModal();
+            updateCartSummary();
+            renderCartList();
+            
+            // Auto open cart drawer
+            toggleCart(true);
+        }
+
+        // --- CART DRAWER LOGIC ---
+        function toggleCart(forceOpen = null) {
+            const drawer = document.getElementById("cart-drawer");
+            const isOpen = !drawer.classList.contains("translate-x-full");
+
+            if (forceOpen === true || (!isOpen && forceOpen === null)) {
+                drawer.classList.remove("translate-x-full");
+            } else {
+                drawer.classList.add("translate-x-full");
+            }
+        }
+
+        function changeCartItemQty(itemId, dir) {
+            const item = cart.find(i => i.id === itemId);
+            if (!item) return;
+
+            item.quantity += dir;
+            if (item.quantity < 1) {
+                // Remove item from cart completely
+                cart = cart.filter(i => i.id !== itemId);
+                showToast("Item dihapus dari keranjang", "info");
+            }
+
+            renderCartList();
+            updateCartSummary();
+        }
+
+        function renderCartList() {
+            const container = document.getElementById("cart-items");
+            container.innerHTML = "";
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-stone-400 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-5xl opacity-40"></i>
+                        <p class="font-medium">Keranjang Anda masih kosong</p>
+                        <a href="#menu" onclick="toggleCart()" class="text-xs font-bold text-brand-600 hover:underline">Yuk pesen Mie Ayam spesial dulu!</a>
+                    </div>
+                `;
+                return;
+            }
+
+            cart.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "bg-white p-4 rounded-2xl border border-stone-200 flex flex-col justify-between gap-2 shadow-sm relative";
+                
+                let detailsMarkup = "";
+                if (item.toppings && item.toppings.length > 0) {
+                    detailsMarkup = `<div class="flex flex-wrap gap-1 mt-1">` + 
+                        item.toppings.map(t => `<span class="bg-stone-100 text-[10px] px-2 py-0.5 rounded text-stone-600 font-semibold">${t}</span>`).join('') + 
+                        `</div>`;
+                }
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-stone-900 text-sm">${item.title}</h4>
+                            <p class="text-xs text-brand-600 font-extrabold mt-0.5">Rp ${item.unitPrice.toLocaleString('id-ID')} / Porsi</p>
+                            ${detailsMarkup}
+                        </div>
+                        <button onclick="deleteCartItem('${item.id}')" class="text-stone-300 hover:text-rose-600 transition-colors p-1">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-2 mt-1 border-t border-stone-100 text-xs">
+                        <span class="text-stone-500 font-semibold">Total: Rp ${(item.unitPrice * item.quantity).toLocaleString('id-ID')}</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeCartItemQty('${item.id}', -1)" class="h-6 w-6 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold flex items-center justify-center">-</button>
+                            <span class="font-extrabold text-stone-900 w-4 text-center">${item.quantity}</span>
+                            <button onclick="changeCartItemQty('${item.id}', 1)" class="h-6 w-6 rounded bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold flex items-center justify-center">+</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function deleteCartItem(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            renderCartList();
+            updateCartSummary();
+            showToast("Item dihapus dari keranjang", "info");
+        }
+
+        function updateCartSummary() {
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += (item.unitPrice * item.quantity);
+            });
+
+            let discount = 0;
+            if (activePromo) {
+                if (activePromo.value === "DISKON10") {
+                    discount = Math.floor(subtotal * 0.1);
+                } else if (activePromo.value === "TEH") {
+                    // Check if they order "Es Teh Manis Selasih" or subtract Rp 3.000
+                    discount = 3000; 
+                } else if (activePromo.value === "CEKER" || activePromo.value === "PANGSIT") {
+                    // Subtract Rp 2.000 for free extra topping
+                    discount = 2000;
+                }
+            }
+
+            const total = subtotal - discount;
+
+            // Updates count badge
+            const countBadge = document.getElementById("cart-count");
+            const totalCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+            
+            if (totalCount > 0) {
+                countBadge.innerText = totalCount;
+                countBadge.classList.remove("scale-0");
+            } else {
+                countBadge.classList.add("scale-0");
+            }
+
+            document.getElementById("subtotal-display").innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            
+            if (discount > 0) {
+                document.getElementById("discount-row").classList.remove("hidden");
+                document.getElementById("discount-display").innerText = `-Rp ${discount.toLocaleString('id-ID')}`;
+            } else {
+                document.getElementById("discount-row").classList.add("hidden");
+            }
+
+            document.getElementById("total-display").innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // --- SUBMIT REAL-TIME ORDER SIMULATION TO WHATSAPP ---
+        function checkoutToWhatsApp() {
+            if (cart.length === 0) {
+                showToast("Pilih mie ayam favoritmu dulu di menu!", "error");
+                return;
+            }
+
+            const name = document.getElementById("order-name").value.trim();
+            const type = document.querySelector('input[name="order-type"]:checked').value;
+            const address = document.getElementById("order-address").value.trim();
+
+            if (!name) {
+                showToast("Mohon isikan nama Anda untuk pesanan.", "warning");
+                document.getElementById("order-name").focus();
+                return;
+            }
+            if (!address) {
+                const tip = type === "dine-in" ? "Nomor Meja" : "Alamat Lengkap";
+                showToast(`Mohon isikan ${tip} Anda.`, "warning");
+                document.getElementById("order-address").focus();
+                return;
+            }
+
+            // Build WhatsApp Message Text
+            let text = `*HALO MIE AYAM KOLONG AWI* 🍜\n`;
+            text += `Saya ingin memesan menu lezat berikut ini:\n`;
+            text += `-----------------------------------------------\n\n`;
+
+            cart.forEach((item, index) => {
+                text += `${index + 1}. *${item.title}* x${item.quantity}\n`;
+                if (item.toppings && item.toppings.length > 0) {
+                    text += `   _Kustomisasi: ${item.toppings.join(', ')}_\n`;
+                }
+                text += `   Subtotal: Rp ${(item.unitPrice * item.quantity).toLocaleString('id-ID')}\n\n`;
+            });
+
+            text += `-----------------------------------------------\n`;
+            
+            let subtotal = cart.reduce((acc, curr) => acc + (curr.unitPrice * curr.quantity), 0);
+            let discount = 0;
+            if (activePromo) {
+                if (activePromo.value === "DISKON10") discount = Math.floor(subtotal * 0.1);
+                else if (activePromo.value === "TEH") discount = 3000;
+                else discount = 2000;
+                
+                text += `Subtotal: Rp ${subtotal.toLocaleString('id-ID')}\n`;
+                text += `Voucher Promo (${activePromo.code}): -Rp ${discount.toLocaleString('id-ID')}\n`;
+            }
+
+            const total = subtotal - discount;
+            text += `*TOTAL PEMBAYARAN: Rp ${total.toLocaleString('id-ID')}*\n\n`;
+
+            text += `*DETAIL PEMESAN:*\n`;
+            text += `👤 Nama: ${name}\n`;
+            text += `📍 Tipe Layanan: ${type === 'dine-in' ? 'Makan di Kedai (Dine-In)' : 'Kirim ke Rumah (Delivery)'}\n`;
+            text += `🏢 Meja / Alamat: ${address}\n\n`;
+            text += `Mohon segera diproses ya. Terima kasih Mie Ayam Kolong Awi! 🙏✨`;
+
+            const encodedText = encodeURIComponent(text);
+            const waNumber = "6285710650502"; 
+            const waUrl = `https://wa.me/${waNumber}?text=${encodedText}`;
+
+            // Reset Cart simulation gracefully
+            showToast("🚀 Menghubungkan pesanan Anda ke WhatsApp...", "success");
+            
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 800);
+        }
+
+        // --- REVIEWS LOGIC ---
+        function renderReviews() {
+            const container = document.getElementById("reviews-container");
+            container.innerHTML = "";
+
+            reviews.forEach(r => {
+                let stars = "";
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= r.rating) {
+                        stars += `<i class="fa-solid fa-star text-amber-400"></i>`;
+                    } else {
+                        stars += `<i class="fa-regular fa-star text-stone-300"></i>`;
+                    }
+                }
+
+                const card = document.createElement("div");
+                card.className = "bg-stone-50 border border-stone-200 p-6 rounded-3xl space-y-3 relative";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-stone-900 text-sm">${r.name}</h4>
+                            <span class="text-[10px] text-stone-400 font-semibold uppercase">Pelanggan Terverifikasi</span>
+                        </div>
+                        <div class="flex gap-0.5 text-xs">
+                            ${stars}
+                        </div>
+                    </div>
+                    <p class="text-stone-600 text-xs sm:text-sm leading-relaxed italic">"${r.comment}"</p>
+                    <div class="absolute -bottom-2 -right-2 text-6xl text-brand-500/5 select-none pointer-events-none font-serif">“</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function setFormRating(stars) {
+            currentFormRating = stars;
+            const container = document.getElementById("rating-stars-input");
+            const children = container.children;
+            
+            for (let i = 0; i < 5; i++) {
+                if (i < stars) {
+                    children[i].className = "fa-solid fa-star text-amber-400 transition-colors";
+                } else {
+                    children[i].className = "fa-solid fa-star text-stone-300 transition-colors hover:text-amber-400";
+                }
+            }
+        }
+
+        function submitReview(e) {
+            e.preventDefault();
+            const name = document.getElementById("reviewer-name").value.trim();
+            const comment = document.getElementById("reviewer-comment").value.trim();
+
+            if (!name || !comment) return;
+
+            const newReview = {
+                name: name,
+                rating: currentFormRating,
+                comment: comment
+            };
+
+            reviews.unshift(newReview); // insert at top
+            renderReviews();
+
+            // Reset form fields
+            document.getElementById("reviewer-name").value = "";
+            document.getElementById("reviewer-comment").value = "";
+            setFormRating(5);
+
+            showToast("💖 Terima kasih atas ulasan manis Anda!", "success");
+            playSound('win');
+        }
+
+        // --- REAL-TIME SHOP OPEN / CLOSE INDICATOR ---
+        function updateShopStatus() {
+            const now = new Date();
+            const hour = now.getHours();
+            
+            // Operational Hours: 10:00 - 21:00 (10 to 21)
+            const isOpen = (hour >= 10 && hour < 21);
+            
+            const badge = document.getElementById("shop-status-badge");
+            const text = document.getElementById("shop-status-text");
+
+            if (isOpen) {
+                badge.className = "flex items-center gap-1 bg-green-500/20 text-green-300 px-2 py-0.5 rounded-full text-xs";
+                text.innerText = "Buka Sekarang";
+            } else {
+                badge.className = "flex items-center gap-1 bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full text-xs";
+                text.innerText = "Sudah Tutup";
+            }
+        }
+
+        // --- IMAGE MANAGEMENT MODAL LOGIC (ADMIN PANEL & SECURITY) ---
+        function openAdminModal() {
+            if (!isAdminAuthenticated) {
+                // If not authenticated, open password prompt instead
+                openAuthModal();
+                return;
+            }
+            populateAdminMenuList();
+            document.getElementById("admin-modal").classList.remove("hidden");
+        }
+
+        function closeAdminModal() {
+            document.getElementById("admin-modal").classList.add("hidden");
+        }
+
+        // Auth Password Verification Modal Handlers
+        function openAuthModal() {
+            document.getElementById("admin-pin-input").value = "";
+            document.getElementById("auth-error-msg").classList.add("hidden");
+            document.getElementById("auth-modal").classList.remove("hidden");
+        }
+
+        function closeAuthModal() {
+            document.getElementById("auth-modal").classList.add("hidden");
+        }
+
+        function verifyAdminPIN(e) {
+            e.preventDefault();
+            const inputVal = document.getElementById("admin-pin-input").value;
+            const errMsg = document.getElementById("auth-error-msg");
+            
+            if (inputVal === ADMIN_PIN) {
+                isAdminAuthenticated = true;
+                closeAuthModal();
+                showToast("🔓 Akses Admin Diberikan!", "success");
+                playSound('win');
+                openAdminModal();
+            } else {
+                errMsg.classList.remove("hidden");
+                showToast("❌ PIN Admin Salah!", "error");
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminAuthenticated = false;
+            closeAdminModal();
+            showToast("🔒 Akses Admin Berhasil Dikunci Kembali.", "info");
+        }
+
+        function populateAdminMenuList() {
+            const container = document.getElementById("admin-menu-list");
+            container.innerHTML = "";
+
+            menuItems.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "bg-stone-50 border border-stone-150 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4";
+                
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img id="preview-menu-img-${item.id}" src="${item.img}" onerror="this.onerror=null; this.src='${item.fallbackImg}';" alt="${item.title}" class="w-14 h-14 rounded-xl object-cover border border-stone-200">
+                        <div>
+                            <span class="block font-bold text-stone-900 text-sm">${item.title}</span>
+                            <span class="block text-[10px] text-stone-400 font-semibold uppercase">ID: ${item.id} • Kategori: ${item.category}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="file" id="upload-menu-input-${item.id}" accept="image/*" onchange="handleImageUpload(event, 'menu', '${item.id}')" class="hidden">
+                        <button onclick="document.getElementById('upload-menu-input-${item.id}').click()" class="px-3.5 py-2 bg-stone-200 hover:bg-stone-300 text-stone-700 hover:text-stone-800 text-xs font-extrabold rounded-xl transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-camera"></i> Ganti Foto HP
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Handle File uploading and reading as Base64 to update DOM / State
+        function handleImageUpload(event, type, itemId = null) {
+            // Guard safety to verify auth again
+            if (!isAdminAuthenticated) {
+                showToast("Sesi kedaluwarsa, silakan verifikasi ulang.", "error");
+                openAuthModal();
+                return;
+            }
+
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Simple validation
+            if (!file.type.startsWith('image/')) {
+                showToast("File yang Anda masukkan bukan jenis gambar!", "error");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+
+                if (type === 'banner') {
+                    // Update main hero banner background source
+                    const bgBanner = document.getElementById("hero-bg-img");
+                    if (bgBanner) bgBanner.src = base64Image;
+
+                    // Update banner thumbnail preview
+                    document.getElementById("preview-banner-img").src = base64Image;
+                    showToast("🎉 Gambar Banner Utama berhasil diganti!", "success");
+                    playSound('win');
+                } else if (type === 'menu' && itemId) {
+                    // Find corresponding item in array & update in-memory object image
+                    const item = menuItems.find(i => i.id === itemId);
+                    if (item) {
+                        item.img = base64Image;
+                        
+                        // Update thumbnail preview in modal
+                        const thumb = document.getElementById(`preview-menu-img-${itemId}`);
+                        if (thumb) thumb.src = base64Image;
+
+                        // Re-render the active menu view in main screen
+                        renderMenu();
+                        showToast(`🎉 Foto untuk "${item.title}" berhasil diganti!`, "success");
+                        playSound('win');
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // --- MOBILE NAV MENU ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            menu.classList.toggle("hidden");
+        }
+
+        // --- INITIALIZERS ---
+        window.addEventListener('resize', resizeCanvas);
+
+        window.onload = function() {
+            renderMenu();
+            renderReviews();
+            updateShopStatus();
+            
+            // Draw Interactive Spin Wheel Canvas
+            setTimeout(() => {
+                resizeCanvas();
+            }, 200);
+
+            // Interval status check
+            setInterval(updateShopStatus, 60000);
+        };
+    </script>
 </body>
 </html>
