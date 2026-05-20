@@ -117,8 +117,8 @@
                 <!-- Right Utility Icons (Cart & Admin Image Uploader) -->
                 <div class="flex items-center gap-3">
                     <!-- Admin Image Settings Button -->
-                    <button onclick="openAdminModal()" class="hidden sm:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold transition-all">
-                        <i class="fa-solid fa-lock text-sm"></i> Atur Gambar
+                    <button id="admin-setup-btn" onclick="openAdminModal()" class="hidden sm:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 hover:text-amber-800 border border-amber-200 px-3 py-2 rounded-xl text-xs font-bold transition-all">
+                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Atur Gambar
                     </button>
 
                     <button onclick="toggleCart()" class="relative bg-stone-100 hover:bg-brand-50 hover:text-brand-600 text-stone-700 p-3 rounded-xl transition-all duration-200">
@@ -137,7 +137,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200 px-4 pt-2 pb-4 space-y-2 shadow-lg">
             <!-- Mobile Admin Image Button -->
             <button onclick="openAdminModal(); toggleMobileMenu();" class="w-full text-left py-2.5 px-3 rounded-lg bg-amber-50 text-amber-800 font-bold transition-all flex items-center gap-2">
-                <i class="fa-solid fa-lock"></i> Pengaturan Gambar
+                <i class="fa-solid fa-cloud-arrow-up"></i> Pengaturan Gambar Cloud
             </button>
             <a href="#tentang" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Tentang Kami</a>
             <a href="#menu" onclick="toggleMobileMenu()" class="block py-2.5 px-3 rounded-lg hover:bg-stone-50 text-stone-700 hover:text-brand-600 font-medium transition-all">Menu Utama</a>
@@ -203,14 +203,14 @@
                     <div class="bg-rose-100 text-brand-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl mb-6">
                         <i class="fa-solid fa-mortar-pestle"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">Resep Rahasia Autentik</h3>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Resep Rahasia </h3>
                     <p class="text-stone-600">Bumbu tumisan ayam melimpah dengan racikan rempah nusantara asli yang meresap sempurna, dijamin beda dari yang lain.</p>
                 </div>
                 <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow">
                     <div class="bg-amber-100 text-amber-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl mb-6">
                         <i class="fa-solid fa-wheat-awn"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">Mie Buatan Sendiri</h3>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Mie dibuat selalu baru</h3>
                     <p class="text-stone-600">Mie dibuat segar setiap hari tanpa bahan pengawet buatan. Bertekstur kenyal, lembut, dan pas sekali di lidah.</p>
                 </div>
                 <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow">
@@ -719,14 +719,19 @@
             <div class="border-b border-stone-100 pb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                 <div>
                     <h3 class="text-2xl font-black text-stone-900 flex items-center gap-2">
-                        <i class="fa-solid fa-camera text-brand-600"></i> Pengaturan Gambar Kedai
+                        <i class="fa-solid fa-cloud animate-pulse text-brand-600"></i> Pengaturan Cloud Kedai
                     </h3>
-                    <p class="text-stone-500 text-xs sm:text-sm mt-1">Ganti gambar banner utama dan foto menu mie ayam Anda menggunakan tangkapan layar HP.</p>
+                    <p class="text-stone-500 text-xs sm:text-sm mt-1">Ganti gambar banner utama dan foto menu mie ayam Anda. Hasil unggahan akan sinkron otomatis ke HP semua pelanggan.</p>
                 </div>
-                <!-- Lock / Logout Admin button -->
-                <button onclick="logoutAdmin()" class="self-start sm:self-center px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-lock"></i> Kunci Sesi Admin
-                </button>
+                <!-- Reset & Lock Button Group -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="resetToDefaults()" class="px-3.5 py-2 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Bawaan
+                    </button>
+                    <button onclick="logoutAdmin()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock"></i> Kunci Sesi
+                    </button>
+                </div>
             </div>
 
             <!-- Image Settings Rows -->
@@ -760,6 +765,33 @@
             <div class="bg-stone-50 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-4 flex justify-end items-center border-t border-stone-200 rounded-b-3xl">
                 <button onclick="closeAdminModal()" class="px-6 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-800 text-xs font-bold rounded-xl transition-all">
                     Selesai & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Reset Confirmation Modal (Strictly conforming to no alert/confirm rules) -->
+    <div id="reset-confirm-modal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div onclick="closeResetConfirm()" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm"></div>
+        
+        <!-- Modal Card -->
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 relative z-10 shadow-2xl text-center space-y-5 border border-stone-150 animate-pulse-slow">
+            <div class="mx-auto h-16 w-16 bg-rose-50 rounded-2xl flex items-center justify-center text-3xl text-rose-500 border border-rose-100">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            
+            <div class="space-y-1">
+                <h3 class="text-xl font-black text-stone-900">Konfirmasi Reset</h3>
+                <p class="text-stone-500 text-xs leading-relaxed">Apakah Anda yakin ingin mengembalikan seluruh gambar menu dan banner ke pengaturan awal?</p>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closeResetConfirm()" class="flex-1 py-3 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-xl text-xs transition-all">
+                    Batal
+                </button>
+                <button onclick="confirmResetToDefaults()" class="flex-1 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition-all shadow-md shadow-rose-600/10">
+                    Ya, Reset
                 </button>
             </div>
         </div>
@@ -831,7 +863,7 @@
         </div>
     </footer>
 
-    <!-- JS Logic Core script -->
+    <!-- JS Logic Core script (Standard Script - Loaded Instantly) -->
     <script>
         // Web Audio Context for Retro Synthesizer Sound Effects
         let audioCtx = null;
@@ -852,7 +884,6 @@
                 const now = audioCtx.currentTime;
 
                 if (type === 'tick') {
-                    // Play a quick woodblock/wheel tick
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(440, now);
                     osc.frequency.exponentialRampToValueAtTime(120, now + 0.05);
@@ -861,19 +892,17 @@
                     osc.start(now);
                     osc.stop(now + 0.05);
                 } else if (type === 'win') {
-                    // Upbeat retro fanfare chime
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, now); // C5
-                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
-                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
-                    osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.3);
                     gain.gain.setValueAtTime(0.2, now);
                     gain.gain.setValueAtTime(0.2, now + 0.3);
                     gain.gain.linearRampToValueAtTime(0, now + 0.5);
                     osc.start(now);
                     osc.stop(now + 0.5);
                 } else if (type === 'cart') {
-                    // Sweet bubble drop sound
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(300, now);
                     osc.frequency.exponentialRampToValueAtTime(900, now + 0.15);
@@ -883,12 +912,12 @@
                     osc.stop(now + 0.15);
                 }
             } catch (e) {
-                console.log("Audio disabled or not supported by browser security constraints");
+                console.log("Audio disabled or not supported");
             }
         }
 
-        // --- STATE MANAGEMENT ---
-        const menuItems = [
+        // --- MENU STATE ---
+        const defaultMenuItems = [
             {
                 id: 'm1',
                 title: 'Mie Ayam Istimewa',
@@ -945,6 +974,9 @@
             }
         ];
 
+        // Load local cache of menu state to render instantly
+        let menuItems = JSON.parse(localStorage.getItem('kolongawi_menu_state')) || JSON.parse(JSON.stringify(defaultMenuItems));
+
         let cart = [];
         let reviews = [
             { name: "Andri Wijaya", rating: 5, comment: "Mie ayam paling mantap di Parung Panjang! Topping ayamnya gila melimpah bgt gak pelit. Murah tapi rasanya premium pol!" },
@@ -956,14 +988,14 @@
         let currentItemToCustomize = null;
         let activePromo = null;
 
-        // Security Authentication State
+        // Security / Admin State
         let isAdminAuthenticated = false;
-        const ADMIN_PIN = "1234"; // Anda bisa mengganti PIN default di sini
+        const ADMIN_PIN = "1234"; 
 
         // Form Rating State
         let currentFormRating = 5;
 
-        // --- WHEEL DRAWING & SPIN LOGIC ---
+        // --- SPIN WHEEL CONFIG & STATE ---
         const sectors = [
             { label: "Gratis Es Teh", value: "TEH", code: "KOLONGTEE" },
             { label: "Zonk! Coba Lagi", value: "ZONK", code: "" },
@@ -974,12 +1006,12 @@
         ];
 
         const colors = ["#be123c", "#374151", "#d97706", "#374151", "#be123c", "#d97706"];
-        let wheelCanvas = document.getElementById("wheel-canvas");
-        let ctx = wheelCanvas.getContext("2d");
+        let wheelCanvas;
+        let wheelCtx;
         let isSpinning = false;
-        let currentRotation = 0;
 
         function resizeCanvas() {
+            if (!wheelCanvas) return;
             const size = wheelCanvas.parentElement.clientWidth - 16;
             wheelCanvas.width = size;
             wheelCanvas.height = size;
@@ -987,50 +1019,47 @@
         }
 
         function drawWheel() {
+            if (!wheelCanvas || !wheelCtx) return;
             const width = wheelCanvas.width;
             const height = wheelCanvas.height;
             const radius = width / 2;
             const totalSectors = sectors.length;
             const arc = Math.PI * 2 / totalSectors;
 
-            ctx.clearRect(0, 0, width, height);
+            wheelCtx.clearRect(0, 0, width, height);
 
-            // Draw sectors
             for (let i = 0; i < totalSectors; i++) {
                 const angle = i * arc;
-                ctx.beginPath();
-                ctx.fillStyle = colors[i];
-                ctx.moveTo(radius, radius);
-                ctx.arc(radius, radius, radius - 8, angle, angle + arc);
-                ctx.lineTo(radius, radius);
-                ctx.fill();
+                wheelCtx.beginPath();
+                wheelCtx.fillStyle = colors[i];
+                wheelCtx.moveTo(radius, radius);
+                wheelCtx.arc(radius, radius, radius - 8, angle, angle + arc);
+                wheelCtx.lineTo(radius, radius);
+                wheelCtx.fill();
 
-                // Draw Text
-                ctx.save();
-                ctx.translate(radius, radius);
-                ctx.rotate(angle + arc / 2);
-                ctx.textAlign = "right";
-                ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 11px sans-serif";
-                if (width > 300) ctx.font = "bold 13px sans-serif";
-                ctx.fillText(sectors[i].label, radius - 25, 5);
-                ctx.restore();
+                wheelCtx.save();
+                wheelCtx.translate(radius, radius);
+                wheelCtx.rotate(angle + arc / 2);
+                wheelCtx.textAlign = "right";
+                wheelCtx.fillStyle = "#ffffff";
+                wheelCtx.font = "bold 11px sans-serif";
+                if (width > 300) wheelCtx.font = "bold 13px sans-serif";
+                wheelCtx.fillText(sectors[i].label, radius - 25, 5);
+                wheelCtx.restore();
             }
 
-            // Outer golden ring
-            ctx.beginPath();
-            ctx.arc(radius, radius, radius - 4, 0, Math.PI * 2);
-            ctx.strokeStyle = "#fbbf24";
-            ctx.lineWidth = 8;
-            ctx.stroke();
+            wheelCtx.beginPath();
+            wheelCtx.arc(radius, radius, radius - 4, 0, Math.PI * 2);
+            wheelCtx.strokeStyle = "#fbbf24";
+            wheelCtx.lineWidth = 8;
+            wheelCtx.stroke();
         }
 
         function spinWheel() {
-            if (isSpinning) return;
+            if (isSpinning || !wheelCanvas) return;
             isSpinning = true;
             document.getElementById("spin-btn").disabled = true;
 
-            // Synthesis click ticks during wheel rotation
             let ticksCount = 0;
             const spinSoundInterval = setInterval(() => {
                 playSound('tick');
@@ -1038,12 +1067,9 @@
                 if (ticksCount > 15) clearInterval(spinSoundInterval);
             }, 150);
 
-            // Choose random sector
             const sectorIndex = Math.floor(Math.random() * sectors.length);
             const totalSectors = sectors.length;
             const arcSize = 360 / totalSectors;
-            
-            // Calc exact rotation to point selected sector to top (pointer is at -90 degrees/top)
             const targetRotation = 360 * 5 + (360 - (sectorIndex * arcSize) - (arcSize / 2)) - 90;
 
             wheelCanvas.style.transition = "transform 4s cubic-bezier(0.1, 0.8, 0.3, 1)";
@@ -1079,7 +1105,6 @@
                 return;
             }
 
-            // Find sector detail
             const sector = sectors.find(s => s.code === code);
             if (!sector) return;
 
@@ -1089,7 +1114,6 @@
                 value: sector.value
             };
 
-            // Update checkout view
             document.getElementById("applied-promo-card").classList.remove("hidden");
             document.getElementById("applied-promo-desc").innerText = sector.label;
             
@@ -1108,6 +1132,7 @@
         // --- TOAST SYSTEM ---
         function showToast(message, type = 'info') {
             const container = document.getElementById("toast-container");
+            if (!container) return;
             const toast = document.createElement("div");
             toast.className = `flex items-center gap-3 px-5 py-4 rounded-2xl shadow-xl border text-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto max-w-sm`;
             
@@ -1133,21 +1158,20 @@
             toast.className += ` ${bg}`;
             container.appendChild(toast);
             
-            // Anim In
             setTimeout(() => {
                 toast.classList.remove("translate-y-2", "opacity-0");
             }, 10);
 
-            // Out & Remove
             setTimeout(() => {
                 toast.classList.add("translate-y-2", "opacity-0");
                 setTimeout(() => toast.remove(), 300);
             }, 4000);
         }
 
-        // --- RENDERING VIEWS ---
+        // --- RENDERING MENU & UI ---
         function renderMenu() {
             const container = document.getElementById("menu-container");
+            if (!container) return;
             container.innerHTML = "";
 
             const filtered = menuItems.filter(item => {
@@ -1188,7 +1212,6 @@
         function filterMenu(category) {
             activeCategory = category;
             
-            // Handle active tab style
             document.querySelectorAll(".tab-btn").forEach(btn => {
                 btn.className = "tab-btn px-6 py-2.5 rounded-full text-sm font-semibold transition-all shadow-sm bg-white text-stone-600 hover:bg-stone-100";
             });
@@ -1200,14 +1223,12 @@
             renderMenu();
         }
 
-        // --- CUSTOMIZER MODAL INTERACTIVITY ---
         function openCustomizeModal(itemId) {
             const item = menuItems.find(i => i.id === itemId);
             if (!item) return;
 
-            currentItemToCustomize = JSON.parse(JSON.stringify(item)); // Deep copy template
+            currentItemToCustomize = JSON.parse(JSON.stringify(item));
             
-            // Set fields inside modal
             document.getElementById("modal-item-title").innerText = item.title;
             document.getElementById("modal-item-desc").innerText = item.description;
             document.getElementById("modal-item-price-tag").innerText = `Rp ${item.price.toLocaleString('id-ID')}`;
@@ -1218,7 +1239,6 @@
                 modalImg.src = item.fallbackImg;
             };
 
-            // Reset customizable fields
             document.querySelector('input[name="porsi-size"][value="normal"]').checked = true;
             document.getElementById("top-bakso").checked = false;
             document.getElementById("top-pangsit").checked = false;
@@ -1228,8 +1248,6 @@
             updateSpiceLevelText(0);
 
             updateModalTotal();
-
-            // Open popup
             document.getElementById("customize-modal").classList.remove("hidden");
         }
 
@@ -1240,6 +1258,7 @@
 
         function updateSpiceLevelText(val) {
             const label = document.getElementById("spice-level-text");
+            if (!label) return;
             const warnings = [
                 "Level 0 (Gak Pedes)",
                 "Level 1 (Sangat Santuy)",
@@ -1272,11 +1291,9 @@
 
             let base = currentItemToCustomize.price;
             
-            // Portion size cost
             const porsi = document.querySelector('input[name="porsi-size"]:checked').value;
             if (porsi === 'jumbo') base += 4000;
 
-            // Extra Toppings cost
             if (document.getElementById("top-bakso").checked) base += 3000;
             if (document.getElementById("top-pangsit").checked) base += 2000;
             if (document.getElementById("top-ceker").checked) base += 2000;
@@ -1287,7 +1304,6 @@
             document.getElementById("modal-total-display").innerText = `Rp ${total.toLocaleString('id-ID')}`;
         }
 
-        // Add configured bowl item into dynamic shopping cart
         function addCurrentItemToCart() {
             if (!currentItemToCustomize) return;
 
@@ -1326,7 +1342,7 @@
             const finalUnitPrice = currentItemToCustomize.price + extraCost;
 
             const cartItem = {
-                id: Date.now().toString(), // unique runtime ID
+                id: Date.now().toString(),
                 title: currentItemToCustomize.title,
                 basePrice: currentItemToCustomize.price,
                 extraCost: extraCost,
@@ -1339,7 +1355,6 @@
 
             cart.push(cartItem);
             
-            // Visual success indicator
             playSound('cart');
             showToast(`🛒 ${qty}x ${currentItemToCustomize.title} dimasukkan ke keranjang!`, "success");
             
@@ -1347,13 +1362,13 @@
             updateCartSummary();
             renderCartList();
             
-            // Auto open cart drawer
             toggleCart(true);
         }
 
-        // --- CART DRAWER LOGIC ---
+        // --- CART SYSTEM ---
         function toggleCart(forceOpen = null) {
             const drawer = document.getElementById("cart-drawer");
+            if (!drawer) return;
             const isOpen = !drawer.classList.contains("translate-x-full");
 
             if (forceOpen === true || (!isOpen && forceOpen === null)) {
@@ -1369,7 +1384,6 @@
 
             item.quantity += dir;
             if (item.quantity < 1) {
-                // Remove item from cart completely
                 cart = cart.filter(i => i.id !== itemId);
                 showToast("Item dihapus dari keranjang", "info");
             }
@@ -1380,6 +1394,7 @@
 
         function renderCartList() {
             const container = document.getElementById("cart-items");
+            if (!container) return;
             container.innerHTML = "";
 
             if (cart.length === 0) {
@@ -1447,17 +1462,14 @@
                 if (activePromo.value === "DISKON10") {
                     discount = Math.floor(subtotal * 0.1);
                 } else if (activePromo.value === "TEH") {
-                    // Check if they order "Es Teh Manis Selasih" or subtract Rp 3.000
                     discount = 3000; 
                 } else if (activePromo.value === "CEKER" || activePromo.value === "PANGSIT") {
-                    // Subtract Rp 2.000 for free extra topping
                     discount = 2000;
                 }
             }
 
             const total = subtotal - discount;
 
-            // Updates count badge
             const countBadge = document.getElementById("cart-count");
             const totalCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
             
@@ -1480,7 +1492,7 @@
             document.getElementById("total-display").innerText = `Rp ${total.toLocaleString('id-ID')}`;
         }
 
-        // --- SUBMIT REAL-TIME ORDER SIMULATION TO WHATSAPP ---
+        // --- SUBMIT REAL-TIME ORDER TO WHATSAPP ---
         function checkoutToWhatsApp() {
             if (cart.length === 0) {
                 showToast("Pilih mie ayam favoritmu dulu di menu!", "error");
@@ -1503,7 +1515,6 @@
                 return;
             }
 
-            // Build WhatsApp Message Text
             let text = `*HALO MIE AYAM KOLONG AWI* 🍜\n`;
             text += `Saya ingin memesan menu lezat berikut ini:\n`;
             text += `-----------------------------------------------\n\n`;
@@ -1542,7 +1553,6 @@
             const waNumber = "6285710650502"; 
             const waUrl = `https://wa.me/${waNumber}?text=${encodedText}`;
 
-            // Reset Cart simulation gracefully
             showToast("🚀 Menghubungkan pesanan Anda ke WhatsApp...", "success");
             
             setTimeout(() => {
@@ -1553,6 +1563,7 @@
         // --- REVIEWS LOGIC ---
         function renderReviews() {
             const container = document.getElementById("reviews-container");
+            if (!container) return;
             container.innerHTML = "";
 
             reviews.forEach(r => {
@@ -1584,6 +1595,7 @@
             });
         }
 
+        // --- RATING STAR INPUT IN REVIEW FORM ---
         function setFormRating(stars) {
             currentFormRating = stars;
             const container = document.getElementById("rating-stars-input");
@@ -1611,10 +1623,9 @@
                 comment: comment
             };
 
-            reviews.unshift(newReview); // insert at top
+            reviews.unshift(newReview);
             renderReviews();
 
-            // Reset form fields
             document.getElementById("reviewer-name").value = "";
             document.getElementById("reviewer-comment").value = "";
             setFormRating(5);
@@ -1623,30 +1634,27 @@
             playSound('win');
         }
 
-        // --- REAL-TIME SHOP OPEN / CLOSE INDICATOR ---
+        // --- REAL-TIME SHOP OPEN INDICATOR ---
         function updateShopStatus() {
             const now = new Date();
             const hour = now.getHours();
-            
-            // Operational Hours: 10:00 - 21:00 (10 to 21)
             const isOpen = (hour >= 10 && hour < 21);
             
             const badge = document.getElementById("shop-status-badge");
             const text = document.getElementById("shop-status-text");
 
-            if (isOpen) {
+            if (isOpen && badge && text) {
                 badge.className = "flex items-center gap-1 bg-green-500/20 text-green-300 px-2 py-0.5 rounded-full text-xs";
                 text.innerText = "Buka Sekarang";
-            } else {
+            } else if (badge && text) {
                 badge.className = "flex items-center gap-1 bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded-full text-xs";
                 text.innerText = "Sudah Tutup";
             }
         }
 
-        // --- IMAGE MANAGEMENT MODAL LOGIC (ADMIN PANEL & SECURITY) ---
+        // --- SECURITY & PIN MODAL ---
         function openAdminModal() {
             if (!isAdminAuthenticated) {
-                // If not authenticated, open password prompt instead
                 openAuthModal();
                 return;
             }
@@ -1658,7 +1666,6 @@
             document.getElementById("admin-modal").classList.add("hidden");
         }
 
-        // Auth Password Verification Modal Handlers
         function openAuthModal() {
             document.getElementById("admin-pin-input").value = "";
             document.getElementById("auth-error-msg").classList.add("hidden");
@@ -1681,7 +1688,7 @@
                 playSound('win');
                 openAdminModal();
             } else {
-                errMsg.classList.remove("hidden");
+                if (errMsg) errMsg.classList.remove("hidden");
                 showToast("❌ PIN Admin Salah!", "error");
             }
         }
@@ -1694,6 +1701,7 @@
 
         function populateAdminMenuList() {
             const container = document.getElementById("admin-menu-list");
+            if (!container) return;
             container.innerHTML = "";
 
             menuItems.forEach(item => {
@@ -1719,11 +1727,47 @@
             });
         }
 
-        // Handle File uploading and reading as Base64 to update DOM / State
+        // --- COMPRESSION FOR RAPID SYNC ---
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    const MAX_WIDTH = 600; 
+                    const MAX_HEIGHT = 600;
+                    
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+                    callback(compressedBase64);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
         function handleImageUpload(event, type, itemId = null) {
-            // Guard safety to verify auth again
             if (!isAdminAuthenticated) {
-                showToast("Sesi kedaluwarsa, silakan verifikasi ulang.", "error");
+                showToast("Sesi kedaluwarsa, silakan verifikasi ulang PIN.", "error");
                 openAuthModal();
                 return;
             }
@@ -1731,66 +1775,290 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            // Simple validation
             if (!file.type.startsWith('image/')) {
                 showToast("File yang Anda masukkan bukan jenis gambar!", "error");
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Image = e.target.result;
-
+            compressImage(file, function(compressedBase64) {
                 if (type === 'banner') {
-                    // Update main hero banner background source
                     const bgBanner = document.getElementById("hero-bg-img");
-                    if (bgBanner) bgBanner.src = base64Image;
-
-                    // Update banner thumbnail preview
-                    document.getElementById("preview-banner-img").src = base64Image;
-                    showToast("🎉 Gambar Banner Utama berhasil diganti!", "success");
+                    if (bgBanner) bgBanner.src = compressedBase64;
+                    document.getElementById("preview-banner-img").src = compressedBase64;
+                    
+                    localStorage.setItem('kolongawi_banner_state', compressedBase64);
+                    showToast("🎉 Gambar Banner Utama berhasil disimpan di HP!", "success");
                     playSound('win');
+
+                    if (window.saveToCloud) {
+                        window.saveToCloud('banner', null, compressedBase64);
+                    }
                 } else if (type === 'menu' && itemId) {
-                    // Find corresponding item in array & update in-memory object image
                     const item = menuItems.find(i => i.id === itemId);
                     if (item) {
-                        item.img = base64Image;
-                        
-                        // Update thumbnail preview in modal
+                        item.img = compressedBase64;
                         const thumb = document.getElementById(`preview-menu-img-${itemId}`);
-                        if (thumb) thumb.src = base64Image;
+                        if (thumb) thumb.src = compressedBase64;
 
-                        // Re-render the active menu view in main screen
+                        localStorage.setItem('kolongawi_menu_state', JSON.stringify(menuItems));
                         renderMenu();
-                        showToast(`🎉 Foto untuk "${item.title}" berhasil diganti!`, "success");
+                        showToast(`🎉 Foto untuk "${item.title}" berhasil disimpan di HP!`, "success");
                         playSound('win');
+
+                        if (window.saveToCloud) {
+                            window.saveToCloud('menu', itemId, compressedBase64);
+                        }
                     }
                 }
-            };
-            reader.readAsDataURL(file);
+            });
+        }
+
+        // Custom Confirm Reset implementation (Compliant to no alert/confirm rules)
+        function resetToDefaults() {
+            const modal = document.getElementById("reset-confirm-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+            }
+        }
+
+        function closeResetConfirm() {
+            const modal = document.getElementById("reset-confirm-modal");
+            if (modal) {
+                modal.classList.add("hidden");
+            }
+        }
+
+        async function confirmResetToDefaults() {
+            closeResetConfirm();
+            
+            // Local state reset
+            menuItems = JSON.parse(JSON.stringify(defaultMenuItems));
+            window.menuItems = menuItems;
+            
+            // Clear local cache
+            localStorage.removeItem('kolongawi_menu_state');
+            localStorage.removeItem('kolongawi_banner_state');
+
+            // Reset local elements
+            const bgBanner = document.getElementById("hero-bg-img");
+            if (bgBanner) bgBanner.src = 'logo.jpg';
+            const prevBanner = document.getElementById("preview-banner-img");
+            if (prevBanner) prevBanner.src = 'logo.jpg';
+
+            renderMenu();
+            populateAdminMenuList();
+            closeAdminModal();
+
+            // Cloud state reset if Firebase loaded
+            if (window.resetToDefaultsCloud) {
+                await window.resetToDefaultsCloud();
+            } else {
+                showToast("🔄 Gambar lokal berhasil direset ke tampilan bawaan!", "info");
+            }
+        }
+
+        function loadPersistentImages() {
+            const savedBanner = localStorage.getItem('kolongawi_banner_state');
+            if (savedBanner) {
+                const bgBanner = document.getElementById("hero-bg-img");
+                if (bgBanner) bgBanner.src = savedBanner;
+                document.getElementById("preview-banner-img").src = savedBanner;
+            }
         }
 
         // --- MOBILE NAV MENU ---
         function toggleMobileMenu() {
             const menu = document.getElementById("mobile-menu");
-            menu.classList.toggle("hidden");
+            if (menu) {
+                menu.classList.toggle("hidden");
+            }
         }
 
-        // --- INITIALIZERS ---
-        window.addEventListener('resize', resizeCanvas);
+        // --- EXPOSE INTERFACES TO GLOBAL SCOPE ---
+        window.defaultMenuItems = defaultMenuItems;
+        window.menuItems = menuItems;
+        window.renderMenu = renderMenu;
+        window.populateAdminMenuList = populateAdminMenuList;
+        window.openAdminModal = openAdminModal;
+        window.closeAdminModal = closeAdminModal;
+        window.openAuthModal = openAuthModal;
+        window.closeAuthModal = closeAuthModal;
+        window.verifyAdminPIN = verifyAdminPIN;
+        window.logoutAdmin = logoutAdmin;
+        window.resetToDefaults = resetToDefaults;
+        window.closeResetConfirm = closeResetConfirm;
+        window.confirmResetToDefaults = confirmResetToDefaults;
+        window.toggleCart = toggleCart;
+        window.toggleMobileMenu = toggleMobileMenu;
+        window.filterMenu = filterMenu;
+        window.spinWheel = spinWheel;
+        window.applyPromoCode = applyPromoCode;
+        window.removePromoCode = removePromoCode;
+        window.submitReview = submitReview;
+        window.setFormRating = setFormRating;
+        window.closeCustomizeModal = closeCustomizeModal;
+        window.changeModalQty = changeModalQty;
+        window.addCurrentItemToCart = addCurrentItemToCart;
+        window.deleteCartItem = deleteCartItem;
+        window.changeCartItemQty = changeCartItemQty;
+        window.checkoutToWhatsApp = checkoutToWhatsApp;
+        window.openCustomizeModal = openCustomizeModal;
+        window.handleImageUpload = handleImageUpload;
+        window.updateSpiceLevelText = updateSpiceLevelText;
+        window.updateModalTotal = updateModalTotal;
+        window.showToast = showToast;
+        window.playSound = playSound;
 
+        // --- INITIALIZERS ---
         window.onload = function() {
+            // Bind Canvas elements
+            wheelCanvas = document.getElementById("wheel-canvas");
+            if (wheelCanvas) {
+                wheelCtx = wheelCanvas.getContext("2d");
+            }
+
+            loadPersistentImages();
             renderMenu();
             renderReviews();
             updateShopStatus();
             
-            // Draw Interactive Spin Wheel Canvas
             setTimeout(() => {
                 resizeCanvas();
-            }, 200);
+            }, 300);
 
-            // Interval status check
             setInterval(updateShopStatus, 60000);
+        };
+    </script>
+
+    <!-- Firebase Real-time Sync (ES Module loaded safely in the background) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- FIREBASE CONFIGURATION (RULE 1, 2, 3 COMPLIANT) ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "",
+                authDomain: "mock-domain.firebaseapp.com",
+                projectId: "mock-project",
+                storageBucket: "mock-project.appspot.com",
+                messagingSenderId: "12345",
+                appId: "1:12345:web:12345"
+            };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let currentUser = null;
+
+        // --- AUTH LOGIC ON INIT (RULE 3) ---
+        const initAuth = async () => {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (e) {
+                    await signInAnonymously(auth);
+                }
+            } else {
+                await signInAnonymously(auth);
+            }
+        };
+
+        initAuth();
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                setupCloudSyncListeners();
+            }
+        });
+
+        // --- CLOUD FIRESTORE SYNCHRONIZER (RULE 1 & RULE 2 COMPLIANT) ---
+        function setupCloudSyncListeners() {
+            if (!currentUser) return;
+
+            // Setup single document listener for custom banner (RULE 1: artifacts/appId/public/data/custom_images/banner)
+            const bannerRef = doc(db, 'artifacts', appId, 'public', 'data', 'custom_images', 'banner');
+            onSnapshot(bannerRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const base64 = docSnap.data().data;
+                    const bgBanner = document.getElementById("hero-bg-img");
+                    if (bgBanner) bgBanner.src = base64;
+                    const prevBanner = document.getElementById("preview-banner-img");
+                    if (prevBanner) prevBanner.src = base64;
+                    localStorage.setItem('kolongawi_banner_state', base64);
+                }
+            }, (error) => {
+                console.error("Banner stream error:", error);
+            });
+
+            // Listen to all modified menu items in collection (RULE 2: Simple query no orderBy/where/limit)
+            const collectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'custom_images');
+            onSnapshot(collectionRef, (querySnapshot) => {
+                let hasUpdates = false;
+                querySnapshot.forEach((doc) => {
+                    const id = doc.id;
+                    if (id !== 'banner') {
+                        const base64 = doc.data().data;
+                        const item = window.menuItems.find(i => i.id === id);
+                        if (item && item.img !== base64) {
+                            item.img = base64;
+                            hasUpdates = true;
+                        }
+                    }
+                });
+                if (hasUpdates) {
+                    localStorage.setItem('kolongawi_menu_state', JSON.stringify(window.menuItems));
+                    window.renderMenu();
+                    const adminModal = document.getElementById("admin-modal");
+                    if (adminModal && !adminModal.classList.contains("hidden")) {
+                        window.populateAdminMenuList();
+                    }
+                }
+            }, (error) => {
+                console.error("Menu list stream error:", error);
+            });
+        }
+
+        // Save base64 data to Cloud Database (RULE 1 Path compliant)
+        window.saveToCloud = async function(type, id, base64) {
+            if (!currentUser) {
+                window.showToast("Sesi cloud tidak aktif. Hubungkan internet.", "error");
+                return;
+            }
+            const docId = type === 'banner' ? 'banner' : id;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'custom_images', docId);
+            
+            try {
+                await setDoc(docRef, { data: base64 });
+                window.showToast("☁️ Gambar berhasil disinkronkan ke Cloud!", "success");
+                window.playSound('win');
+            } catch (err) {
+                console.error("Cloud Save Failed:", err);
+                window.showToast("Gagal sinkronisasi cloud: " + err.message, "error");
+            }
+        };
+
+        // Delete cloud documents to fall back to initial image references
+        window.resetToDefaultsCloud = async function() {
+            if (!currentUser) return;
+            try {
+                const bannerRef = doc(db, 'artifacts', appId, 'public', 'data', 'custom_images', 'banner');
+                await deleteDoc(bannerRef);
+
+                for (let item of window.defaultMenuItems) {
+                    const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'custom_images', item.id);
+                    await deleteDoc(itemRef);
+                }
+                window.showToast("🔄 Database cloud berhasil direset ke tampilan bawaan!", "success");
+            } catch (e) {
+                console.error("Cloud Reset Failed:", e);
+                window.showToast("Gagal mereset cloud: " + e.message, "error");
+            }
         };
     </script>
 </body>
